@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Room;
+use App\Models\Record;
 use Illuminate\Http\Request;
 
-class RoomController extends Controller
+class RecordController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param  \App\Models\Record  $record
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show(Record $record)
     {
         //
     }
@@ -52,10 +52,10 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param  \App\Models\Record  $record
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit(Record $record)
     {
         //
     }
@@ -64,10 +64,10 @@ class RoomController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Room  $room
+     * @param  \App\Models\Record  $record
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, Record $record)
     {
         //
     }
@@ -75,10 +75,10 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Room  $room
+     * @param  \App\Models\Record  $record
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy(Record $record)
     {
         //
     }
