@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username')->unique();
             $table->string('name')->default('');
-            $table->string('email')->default('');
             $table->string('areas')->default('')->comment('可管理的区域，格式: 1,2,3');
             $table->string('password');
             $table->timestamps();

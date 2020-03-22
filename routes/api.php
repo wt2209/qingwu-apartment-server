@@ -23,6 +23,6 @@ Route::namespace('Api')
     ->name('api.')
     ->middleware('auth:api')
     ->group(function () {
-        // Route::get('categories', 'Api/CategoryController@index');
-        Route::get('rooms', 'RoomController@index');
+        Route::post('/auth/logout', 'UserController@logout')->name('api.auth.logout');
+        Route::get('/users/current-user', 'UserController@me')->name('user.me');
     });

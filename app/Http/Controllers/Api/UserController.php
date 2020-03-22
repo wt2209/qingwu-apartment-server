@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => '退出成功']);
     }
 
     /**
@@ -75,8 +75,8 @@ class UserController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            // 'token_type' => 'bearer',
+            // 'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }

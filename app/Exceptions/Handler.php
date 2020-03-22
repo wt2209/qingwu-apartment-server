@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +53,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'error' => 'token非法 [' . $exception->getMessage() . ']',
+            ], 401);
+        } else if ($exception instanceof ValidationException) {
+            return response()->json([
+                'error' => $exception->validator->errors()->first(),
+            ], 422);
+        } else if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'error' => '未找到数据',
+            ], 404);
+        }
+
         return parent::render($request, $exception);
     }
 }

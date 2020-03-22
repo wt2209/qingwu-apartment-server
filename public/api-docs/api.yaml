@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "SwaggerApi文档接口"
+  description: "一份“青武公寓系统”的api文档接口"
+  
+servers: 
+- url: http://qingwu-apartment.wsl/api
+
+tags:
+- name: "auth"
+  description: "用户登录退出操作"
+
+- name: "user"
+  description: 获取用户信息
+
+paths:
+  /auth/login:
+    post:
+      summary: 用户登录
+      tags:
+       - auth
+      requestBody:
+        description: 用户名和密码
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                password:
+                  type: string
+                  example: admin888
+        
+      responses:
+        200:
+          description: 返回access_token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: 1asdgfhwuiqgfasjlbdf
+                
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+                
+  /auth/logout:
+    post:
+      summary: 用户退出登录
+      tags: 
+       - auth
+      responses:
+        200:
+          description: 退出成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: 退出成功
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+            
+  /users/current-user:
+    get:
+      summary: 获取当前已经登录的用户的详细信息
+      tags: 
+        - user
+      security: 
+       - BearerAuth: []
+      responses:
+        200:
+          description: 返回用户详细信息
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+          
+components:
+  responses:
+    401Unauthorized:
+      description: 获取信息失败
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: token非法
+    404NotFound:
+      description: 没有找到
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+               type: string
+               example: 没有找到
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        name: 
+          type: string
+          example: 张三
+        username: 
+          type: string
+          example: admin
+        password:
+          type: string
+          example: admin888
+        areas:
+          type: string
+          example: 1,2
+        
