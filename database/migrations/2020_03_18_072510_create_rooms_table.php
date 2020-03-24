@@ -15,12 +15,11 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('area_id')->default(0);
+            $table->unsignedInteger('area_id')->default(0);
             $table->unsignedBigInteger('category_id')->default(0);
             $table->string('title', 10)->default('')->index();
             $table->string('building', 5)->default('');
             $table->string('unit')->default('');
-            $table->decimal('rent')->default(0)->comment('默认租金');
             $table->integer('number')->default(1)->comment('房间最大人数');
             $table->string('remark')->default('');
             $table->softDeletes('deleted_at', 0);

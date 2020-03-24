@@ -13,6 +13,9 @@ tags:
 
 - name: "user"
   description: 获取用户信息
+  
+- name: "room"
+  description: 房间相关的操作
 
 paths:
   /auth/login:
@@ -85,11 +88,146 @@ paths:
                 $ref: '#/components/schemas/User'
         401:
           $ref: '#/components/responses/401Unauthorized'
+  /rooms:
+    get:
+      summary: 获取房间列表
+      tags: 
+        - room
+      parameters: 
+        - in: query
+          name: 'page'
+          schema:
+            type: integer
+            example: 1
+          description: 分页号
           
+        - in: query
+          name: per-page
+          schema:
+            type: integer
+            example: 20
+          description: 每页显示的条数
+        
+        - in: query
+          name: title
+          schema:
+            type: string
+          description: 房间号，支持模糊查询
+        
+        - in: query
+          name: building
+          schema:
+            type: string
+          description: 楼号
+      security: 
+        - BearerAuth: []
+      responses:
+        200:
+          description: 返回房间列表(分页)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Room'
+                  meta:
+                    $ref:  '#/components/schemas/Meta'
+                      
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      summary: 添加一个房间
+      security: 
+        - BearerAuth: []
+      tags: 
+        - room
+      requestBody:
+        description: 房间信息
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                area_id:
+                  type: number
+                  example: 1
+                category_id:
+                  type: number
+                  example: 1
+                title:
+                  type: string
+                  example: 高1-303
+                building:
+                  type: string
+                  example: 高1#
+                unit: 
+                  type: string
+                  example: 3-7层
+                number: 
+                  type: integer
+                  example: 4
+                charge_rule:
+                  type: object
+                  example: {'租赁房租':[600,700,800,900]}
+                remark:
+                  type: string
+                  example: 房间备注
+      responses:
+        201:
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 创建成功
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+              
+    
+      
+          
+  /rooms/{id}:
+    get:
+      tags: 
+        - room
+      security: 
+        - BearerAuth: []
+      summary: 获取一个房间的信息
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: 房间id
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 返回成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Room'
+            
+            
+      
+    
+                  
 components:
+
   responses:
     401Unauthorized:
-      description: 获取信息失败
+      description: 授权失败
       content:
         application/json:
           schema:
@@ -97,7 +235,7 @@ components:
             properties:
               error: 
                 type: string
-                example: token非法
+                example: token不存在或非法
     404NotFound:
       description: 没有找到
       content:
@@ -115,6 +253,27 @@ components:
       scheme: bearer
       
   schemas:
+    Meta:
+      type: object
+      properties:
+        current_page: 
+          type: integer
+          example: 1
+        last_page:
+          type: integer
+          example: 5
+        per_page:
+          type: integer
+          example: 20
+        from:
+          type: integer
+          example: 1
+        to:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 100
 
     User:
       type: object
@@ -134,4 +293,100 @@ components:
         areas:
           type: string
           example: 1,2
+    
+    Area:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 职工公寓
+        description:
+          type: string
+          example: 区域说明
+        deleted_at: 
+          type: string
+          description: 软删除的日期
+          example: 2020-3-4
+        created_at:
+          type: string
+          example: 2020-3-4
+        updated_at:
+          type: string
+          example: 2020-3-4
+          
+    Category:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        area:
+          $ref: '#/components/schemas/Area'
+        title:
+          type: string
+          example: 租赁
+        type: 
+          type: string
+          example: 职工入住|公司或机构入住|功能用房
+        utility_type:
+          type: string
+          example: 全额收取
+        charge_rule:
+          type: object
+          example: {'租赁房租': [700,800,900,100]}
+        remark:
+          type: string
+          example: 类型说明
+        deleted_at: 
+          type: string
+          description: 软删除的日期
+          example: 2020-3-4
+        created_at:
+          type: string
+          example: 2020-3-4
+        updated_at:
+          type: string
+          example: 2020-3-4
+          
+    Room: 
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        category: 
+          $ref: '#/components/schemas/Category'
+        area:
+          $ref: '#/components/schemas/Area'
+        title:
+          type: string
+          example: 1-1-101
+        building: 
+          type: string
+          example: 1#
+        unit: 
+          type: string
+          example: 1单元
+        number:
+         type: integer
+         example: 4
+        remark:
+          type: string
+          example: 房间备注
+        created_at:
+          type: string
+          example: 2020-3-4
+        updated_at:
+          type: string
+          example: 2020-3-4
+          
+    Record:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
         

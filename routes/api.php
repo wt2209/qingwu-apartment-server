@@ -23,6 +23,9 @@ Route::namespace('Api')
     ->name('api.')
     ->middleware('auth:api')
     ->group(function () {
-        Route::post('/auth/logout', 'UserController@logout')->name('api.auth.logout');
-        Route::get('/users/current-user', 'UserController@me')->name('user.me');
+        Route::post('/auth/logout', 'UserController@logout')->name('auth.logout');
+        Route::get('/users/current-user', 'UserController@me')->name('users.me');
+        Route::get('rooms', 'RoomController@index')->name('rooms.index');
+        Route::post('rooms', 'RoomController@store')->name('rooms.store');
+        Route::get('rooms/{id}', 'RoomController@show')->name('rooms.show');
     });

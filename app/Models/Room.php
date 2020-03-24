@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    protected $fillable = ['category_id', 'room_name', 'building', 'unit', 'rent', 'number', 'remark', 'status'];
+    protected $fillable = ['category_id', 'area_id', 'room_name', 'building', 'unit', 'rent', 'number', 'remark', 'status'];
 
     public function records()
     {
@@ -16,5 +16,10 @@ class Room extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

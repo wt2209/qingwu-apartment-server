@@ -119,6 +119,7 @@ class RoomSeeder extends Seeder
 
         foreach ($data as  $d) {
             $d['area_id'] = 1;
+            $d['category_id'] = rand(1, 7);
             Room::create($d);
         }
     }
