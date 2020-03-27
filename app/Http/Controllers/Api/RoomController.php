@@ -65,6 +65,9 @@ class RoomController extends Controller
 
     public function store(CreateRoomRequest $request)
     {
+        // 验证本房间所属区域是否允许此用户添加
+        $this->authorize('area-create', [Room::class, $request->input('area_id')]);
+
         Room::create($request->all());
         return $this->created();
     }
@@ -78,6 +81,10 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, $id)
     {
         $room = Room::findOrFail($id);
+
+        // 验证本房间所属区域及要修改为的区域是否允许此用户修改
+        $this->authorize('area-update', [Room::class, $room->area_id, $request->area_id]);
+
         $room->fill($request->all());
         $room->save();
         return $this->updated();
@@ -86,6 +93,10 @@ class RoomController extends Controller
     public function delete($id)
     {
         $room = Room::findOrFail($id);
+
+        // 验证本房间所属区域是否允许此用户删除
+        $this->authorize('area-delete', [Room::class, $room->area_id]);
+
         $room->delete();
         return $this->deleted();
     }

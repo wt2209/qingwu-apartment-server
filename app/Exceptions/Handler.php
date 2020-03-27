@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -71,6 +72,10 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => '未找到数据',
             ], 404);
+        } else if ($exception instanceof AccessDeniedHttpException) {
+            return response()->json([
+                'message' => '没有权限',
+            ], 403);
         }
 
         return parent::render($request, $exception);
