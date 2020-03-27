@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    use SoftDeletes;
+
     const TYPE_PERSON = 'person';
     const TYPE_COMPANY = 'company';
     const TYPE_FUNCTIONAL = 'functional';
 
     protected $casts = [
         'charge_rule' => 'array',
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
     ];
 
     protected $dates = [];

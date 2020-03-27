@@ -21,7 +21,10 @@ class RoomResource extends JsonResource
             'unit' => $this->unit,
             'rent' => $this->rent,
             'remark' => $this->remark,
-            'category' => new CategoryResource($this->whenLoaded('category'))
+            'category' => new CategoryResource($this->whenLoaded('category')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

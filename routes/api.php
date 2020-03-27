@@ -28,4 +28,6 @@ Route::namespace('Api')
         Route::get('rooms', 'RoomController@index')->name('rooms.index');
         Route::post('rooms', 'RoomController@store')->name('rooms.store');
         Route::get('rooms/{id}', 'RoomController@show')->name('rooms.show');
+        Route::put('rooms/{id}', 'RoomController@update')->name('rooms.update');
+        Route::delete('rooms/{id}', 'RoomController@delete')->name('rooms.delete');
     });

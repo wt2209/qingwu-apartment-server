@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -61,6 +62,11 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => $exception->validator->errors()->first(),
             ], 422);
+        } else if ($exception instanceof ModelNotFoundException) {
+            // 传递的模型id错误
+            return response()->json([
+                'error' => '参数错误，未找到数据',
+            ], 404);
         } else if ($exception instanceof NotFoundHttpException) {
             return response()->json([
                 'error' => '未找到数据',

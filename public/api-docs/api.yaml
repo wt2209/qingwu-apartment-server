@@ -119,6 +119,20 @@ paths:
           schema:
             type: string
           description: 楼号
+          
+        - in: query
+          name: status
+          schema:
+            type: string
+            example: all|deleted|using
+          description: 要查询的房间状态
+          
+        - in: query
+          name: export
+          schema:
+            type: integer
+            example: 0
+          description: 是否是导出
       security: 
         - BearerAuth: []
       responses:
@@ -187,8 +201,11 @@ paths:
                   message:
                     type: string
                     example: 创建成功
+      
         401:
           $ref: '#/components/responses/401Unauthorized'
+        422:
+          $ref: '#/components/responses/422ValidationError'
               
     
       
@@ -218,14 +235,117 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Room'
-            
-            
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+    put:
+      tags: 
+        - room
+      security: 
+        - BearerAuth: []
+      summary: 修改房间
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: 房间id
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 房间信息
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                area_id:
+                  type: number
+                  example: 1
+                category_id:
+                  type: number
+                  example: 1
+                title:
+                  type: string
+                  example: 高1-303
+                building:
+                  type: string
+                  example: 高1#
+                unit: 
+                  type: string
+                  example: 3-7层
+                number: 
+                  type: integer
+                  example: 4
+                charge_rule:
+                  type: object
+                  example: {'租赁房租':[600,700,800,900]}
+                remark:
+                  type: string
+                  example: 房间备注
+      responses:
+        200:
+          description: 修改成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 修改成功
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        404:
+          $ref: '#/components/responses/404NotFound'
+        422:
+          $ref: '#/components/responses/422ValidationError'
+          
+    delete:
+      tags: 
+        - room
+      security: 
+        - BearerAuth: []
+      summary: 删除一个房间(软删除)
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: 房间id
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 删除成功
+        401:
+          $ref: '#/components/responses/401Unauthorized'
+        404:
+          $ref: '#/components/responses/404NotFound'
+    
       
     
                   
 components:
-
   responses:
+    422ValidationError:
+      description: 验证失败
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: 此字段必填
     401Unauthorized:
       description: 授权失败
       content:

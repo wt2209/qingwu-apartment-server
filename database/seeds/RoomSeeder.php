@@ -42,7 +42,6 @@ class RoomSeeder extends Seeder
                         'title' => $building  . '-' . $unit  . '-' . $i . '01',
                         'building' => $building . '#',
                         'unit' => $unit . '单元',
-                        'rent' => 0,
                         'number' => $number,
                     ];
 
@@ -50,7 +49,6 @@ class RoomSeeder extends Seeder
                         'title' => $building  . '-' . $unit  . '-' . $i . '02',
                         'building' => $building . '#',
                         'unit' => $unit . '单元',
-                        'rent' => 0,
                         'number' => $number,
                     ];
                 }
@@ -90,28 +88,24 @@ class RoomSeeder extends Seeder
                     'title' => $building . '-' . $i . '01',
                     'building' => $building,
                     'unit' => $unit,
-                    'rent' => 0,
                     'number' => $number,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '02',
                     'building' => $building,
                     'unit' => $unit,
-                    'rent' => 0,
                     'number' => $number,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '03',
                     'building' => $building,
                     'unit' => $unit,
-                    'rent' => 0,
                     'number' => $number,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '04',
                     'building' => $building,
                     'unit' => $unit,
-                    'rent' => 0,
                     'number' => $number,
                 ];
             }

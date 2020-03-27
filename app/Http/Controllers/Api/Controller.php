@@ -10,4 +10,14 @@ class Controller extends BaseController
     {
         return response()->json(['message' => $message], 201);
     }
+
+    protected function updated($message = '修改成功')
+    {
+        return response()->json(['message' => $message], 200);
+    }
+
+    protected function deleted($message = '删除成功')
+    {
+        return response()->json(['message' => $message], 200);
+    }
 }
