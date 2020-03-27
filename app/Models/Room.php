@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -28,5 +29,10 @@ class Room extends Model
     public function area()
     {
         return $this->belongsTo(Area::class);
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(new AreasScope);
     }
 }

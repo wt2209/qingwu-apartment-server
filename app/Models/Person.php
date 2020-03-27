@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
     protected $fillable = [
-        'name', 'gender', 'education', 'serial', 'identify',
+        'name', 'area_id', 'gender', 'education', 'serial', 'identify',
         'phone', 'department', 'hired_at', 'entered_at', 'contract_start',
         'contract_end', 'emergency_person', 'emergency_phone', 'origin'
     ];
@@ -75,5 +76,10 @@ class Person extends Model
             default:
                 return $value;
         }
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(new AreasScope);
     }
 }

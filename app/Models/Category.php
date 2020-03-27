@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -29,5 +30,10 @@ class Category extends Model
     public function rooms()
     {
         return $this->hasMany(Room::class);
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(new AreasScope);
     }
 }

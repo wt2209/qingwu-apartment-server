@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Record extends Model
@@ -52,5 +53,10 @@ class Record extends Model
     public function toRoom()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(new AreasScope);
     }
 }

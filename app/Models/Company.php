@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -26,5 +27,10 @@ class Company extends Model
     public function getEnteredAtAttribute($value)
     {
         return $value === '1000-01-01' ? '' : $value;
+    }
+
+    public static function booted()
+    {
+        static::addGlobalScope(new AreasScope);
     }
 }
