@@ -3,26 +3,32 @@ info:
   version: "1.0.0"
   title: "SwaggerApi文档接口"
   description: "一份“青武公寓系统”的api文档接口"
-  
-servers: 
-- url: http://qingwu-apartment.wsl/api
+
+servers:
+  - url: http://qingwu-apartment.wsl/api
+    description: local server
+  - url: http://140.143.233.128/api
+    description: online server
 
 tags:
-- name: "auth"
-  description: "用户登录退出操作"
+  - name: "auth"
+    description: "用户登录退出操作"
 
-- name: "user"
-  description: 获取用户信息
-  
-- name: "room"
-  description: 房间相关的操作
+  - name: "user"
+    description: 获取用户信息
+
+  - name: "room"
+    description: 房间相关的操作
+
+  - name: "area"
+    description: 区域相关的操作
 
 paths:
   /auth/login:
     post:
       summary: 用户登录
       tags:
-       - auth
+        - auth
       requestBody:
         description: 用户名和密码
         required: true
@@ -37,7 +43,7 @@ paths:
                 password:
                   type: string
                   example: admin888
-        
+
       responses:
         200:
           description: 返回access_token
@@ -49,15 +55,15 @@ paths:
                   access_token:
                     type: string
                     example: 1asdgfhwuiqgfasjlbdf
-                
+
         401:
-          $ref: '#/components/responses/401Unauthorized'
-                
+          $ref: "#/components/responses/401Unauthorized"
+
   /auth/logout:
     post:
       summary: 用户退出登录
-      tags: 
-       - auth
+      tags:
+        - auth
       responses:
         200:
           description: 退出成功
@@ -66,74 +72,92 @@ paths:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
                     example: 退出成功
         401:
-          $ref: '#/components/responses/401Unauthorized'
-            
+          $ref: "#/components/responses/401Unauthorized"
+
   /users/current-user:
     get:
       summary: 获取当前已经登录的用户的详细信息
-      tags: 
+      tags:
         - user
-      security: 
-       - BearerAuth: []
+      security:
+        - BearerAuth: []
       responses:
         200:
           description: 返回用户详细信息
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
   /rooms:
     get:
       summary: 获取房间列表
-      tags: 
+      tags:
         - room
-      parameters: 
+      parameters:
         - in: query
-          name: 'page'
+          name: "areas"
+          schema:
+            type: array
+            items:
+              type: integer
+            example: { 1, 2 }
+          description: 区域id列表
+
+        - in: query
+          name: "categories"
+          schema:
+            type: array
+            items:
+              type: integer
+            example: [1, 2]
+          description: 类型id列表
+
+        - in: query
+          name: "page"
           schema:
             type: integer
             example: 1
           description: 分页号
-          
+
         - in: query
-          name: per-page
+          name: per_page
           schema:
             type: integer
             example: 20
           description: 每页显示的条数
-        
+
         - in: query
           name: title
           schema:
             type: string
           description: 房间号，支持模糊查询
-        
+
         - in: query
           name: building
           schema:
             type: string
           description: 楼号
-          
+
         - in: query
           name: status
           schema:
             type: string
             example: all|deleted|using
           description: 要查询的房间状态
-          
+
         - in: query
           name: export
           schema:
             type: integer
             example: 0
           description: 是否是导出
-      security: 
+      security:
         - BearerAuth: []
       responses:
         200:
@@ -146,17 +170,17 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Room'
+                      $ref: "#/components/schemas/Room"
                   meta:
-                    $ref:  '#/components/schemas/Meta'
-                      
+                    $ref: "#/components/schemas/Meta"
+
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
     post:
       summary: 添加一个房间
-      security: 
+      security:
         - BearerAuth: []
-      tags: 
+      tags:
         - room
       requestBody:
         description: 房间信息
@@ -178,15 +202,15 @@ paths:
                 building:
                   type: string
                   example: 高1#
-                unit: 
+                unit:
                   type: string
                   example: 3-7层
-                number: 
+                number:
                   type: integer
                   example: 4
                 charge_rule:
                   type: object
-                  example: {'租赁房租':[600,700,800,900]}
+                  example: { "租赁房租": [600, 700, 800, 900] }
                 remark:
                   type: string
                   example: 房间备注
@@ -201,23 +225,19 @@ paths:
                   message:
                     type: string
                     example: 创建成功
-      
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
         422:
-          $ref: '#/components/responses/422ValidationError'
-              
-    
-      
-          
+          $ref: "#/components/responses/422ValidationError"
+
   /rooms/{id}:
     get:
-      tags: 
+      tags:
         - room
-      security: 
+      security:
         - BearerAuth: []
       summary: 获取一个房间的信息
-      parameters: 
+      parameters:
         - name: id
           in: path
           required: true
@@ -234,16 +254,16 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Room'
+                    $ref: "#/components/schemas/Room"
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
     put:
-      tags: 
+      tags:
         - room
-      security: 
+      security:
         - BearerAuth: []
       summary: 修改房间
-      parameters: 
+      parameters:
         - name: id
           in: path
           required: true
@@ -271,15 +291,15 @@ paths:
                 building:
                   type: string
                   example: 高1#
-                unit: 
+                unit:
                   type: string
                   example: 3-7层
-                number: 
+                number:
                   type: integer
                   example: 4
                 charge_rule:
                   type: object
-                  example: {'租赁房租':[600,700,800,900]}
+                  example: { "租赁房租": [600, 700, 800, 900] }
                 remark:
                   type: string
                   example: 房间备注
@@ -295,19 +315,19 @@ paths:
                     type: string
                     example: 修改成功
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
         404:
-          $ref: '#/components/responses/404NotFound'
+          $ref: "#/components/responses/404NotFound"
         422:
-          $ref: '#/components/responses/422ValidationError'
-          
+          $ref: "#/components/responses/422ValidationError"
+
     delete:
-      tags: 
+      tags:
         - room
-      security: 
+      security:
         - BearerAuth: []
       summary: 删除一个房间(软删除)
-      parameters: 
+      parameters:
         - name: id
           in: path
           required: true
@@ -327,13 +347,186 @@ paths:
                     type: string
                     example: 删除成功
         401:
-          $ref: '#/components/responses/401Unauthorized'
+          $ref: "#/components/responses/401Unauthorized"
         404:
-          $ref: '#/components/responses/404NotFound'
-    
-      
-    
-                  
+          $ref: "#/components/responses/404NotFound"
+
+  /areas:
+    get:
+      tags:
+        - area
+      security:
+        - BearerAuth: []
+      summary: 获取全部区域
+      parameters:
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            example: 1
+          description: 分页号
+
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            example: 20
+          description: 每页显示的条数
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Area"
+                  meta:
+                    $ref: "#/components/schemas/Meta"
+        401:
+          $ref: "#/components/responses/401Unauthorized"
+        404:
+          $ref: "#/components/responses/404NotFound"
+
+    post:
+      summary: 创建一个区域
+      security:
+        - BearerAuth: []
+      tags:
+        - area
+      requestBody:
+        description: 区域信息
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 职工公寓
+                "description":
+                  type: string
+                  example: 区域的说明
+      responses:
+        201:
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 创建成功
+        401:
+          $ref: "#/components/responses/401Unauthorized"
+        422:
+          $ref: "#/components/responses/422ValidationError"
+  /areas/{id}:
+    get:
+      tags:
+        - area
+      security:
+        - BearerAuth: []
+      summary: 获取一个区域的信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 区域id
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 返回成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Area"
+        401:
+          $ref: "#/components/responses/401Unauthorized"
+    delete:
+      tags:
+        - area
+      security:
+        - BearerAuth: []
+      summary: 删除一个区域(软删除)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 区域id
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 删除成功
+        401:
+          $ref: "#/components/responses/401Unauthorized"
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - area
+      security:
+        - BearerAuth: []
+      summary: 修改区域
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 区域id
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 区域信息
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 职工公寓
+                "description":
+                  type: string
+                  example: 区域的说明
+      responses:
+        200:
+          description: 修改成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 修改成功
+        401:
+          $ref: "#/components/responses/401Unauthorized"
+        404:
+          $ref: "#/components/responses/404NotFound"
+        422:
+          $ref: "#/components/responses/422ValidationError"
+
 components:
   responses:
     422ValidationError:
@@ -353,7 +546,7 @@ components:
           schema:
             type: object
             properties:
-              error: 
+              error:
                 type: string
                 example: token不存在或非法
     404NotFound:
@@ -364,19 +557,19 @@ components:
             type: object
             properties:
               error:
-               type: string
-               example: 没有找到
+                type: string
+                example: 没有找到
 
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      
+
   schemas:
     Meta:
       type: object
       properties:
-        current_page: 
+        current_page:
           type: integer
           example: 1
         last_page:
@@ -398,13 +591,13 @@ components:
     User:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
-        name: 
+        name:
           type: string
           example: 张三
-        username: 
+        username:
           type: string
           example: admin
         password:
@@ -413,11 +606,11 @@ components:
         areas:
           type: string
           example: 1,2
-    
+
     Area:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
         title:
@@ -426,7 +619,7 @@ components:
         description:
           type: string
           example: 区域说明
-        deleted_at: 
+        deleted_at:
           type: string
           description: 软删除的日期
           example: 2020-3-4
@@ -436,19 +629,19 @@ components:
         updated_at:
           type: string
           example: 2020-3-4
-          
+
     Category:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
         area:
-          $ref: '#/components/schemas/Area'
+          $ref: "#/components/schemas/Area"
         title:
           type: string
           example: 租赁
-        type: 
+        type:
           type: string
           example: 职工入住|公司或机构入住|功能用房
         utility_type:
@@ -456,11 +649,11 @@ components:
           example: 全额收取
         charge_rule:
           type: object
-          example: {'租赁房租': [700,800,900,100]}
+          example: { "租赁房租": [700, 800, 900, 100] }
         remark:
           type: string
           example: 类型说明
-        deleted_at: 
+        deleted_at:
           type: string
           description: 软删除的日期
           example: 2020-3-4
@@ -470,29 +663,29 @@ components:
         updated_at:
           type: string
           example: 2020-3-4
-          
-    Room: 
+
+    Room:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
-        category: 
-          $ref: '#/components/schemas/Category'
+        category:
+          $ref: "#/components/schemas/Category"
         area:
-          $ref: '#/components/schemas/Area'
+          $ref: "#/components/schemas/Area"
         title:
           type: string
           example: 1-1-101
-        building: 
+        building:
           type: string
           example: 1#
-        unit: 
+        unit:
           type: string
           example: 1单元
         number:
-         type: integer
-         example: 4
+          type: integer
+          example: 4
         remark:
           type: string
           example: 房间备注
@@ -502,11 +695,10 @@ components:
         updated_at:
           type: string
           example: 2020-3-4
-          
+
     Record:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
-        

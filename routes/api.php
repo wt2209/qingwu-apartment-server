@@ -25,9 +25,16 @@ Route::namespace('Api')
     ->group(function () {
         Route::post('/auth/logout', 'UserController@logout')->name('auth.logout');
         Route::get('/users/current-user', 'UserController@me')->name('users.me');
+
         Route::get('rooms', 'RoomController@index')->name('rooms.index');
         Route::post('rooms', 'RoomController@store')->name('rooms.store');
         Route::get('rooms/{id}', 'RoomController@show')->name('rooms.show');
         Route::put('rooms/{id}', 'RoomController@update')->name('rooms.update');
         Route::delete('rooms/{id}', 'RoomController@delete')->name('rooms.delete');
+
+        Route::get('areas', 'AreaController@index')->name('areas.index');
+        Route::post('areas', 'AreaController@store')->name('areas.store');
+        Route::get('areas/{id}', 'AreaController@show')->name('areas.show');
+        Route::put('areas/{id}', 'AreaController@update')->name('areas.update');
+        Route::delete('areas/{id}', 'AreaController@delete')->name('areas.delete');
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Area;
 use Illuminate\Http\Request;
+use App\Http\Resources\AreaResource;
 
 class AreaController extends Controller
 {
@@ -12,9 +13,10 @@ class AreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->query('per_page', config('app.per_page', 20));
+        return AreaResource::collection(Area::paginate($perPage));
     }
 
     /**
