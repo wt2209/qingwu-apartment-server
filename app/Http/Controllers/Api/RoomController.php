@@ -51,7 +51,7 @@ class RoomController extends Controller
         if ($export) {
             return RoomResource::collection($qb->get());
         }
-        return RoomResource::collection($qb->paginat($perPage));
+        return RoomResource::collection($qb->paginate($perPage));
     }
 
     public function store(CreateRoomRequest $request)
