@@ -1,0 +1,116 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "公寓管理系统接口文档",
+        "contact": {
+            "email": "wt2209@126.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "api/categories": {
+            "get": {
+                "tags": [
+                    "category"
+                ],
+                "summary": "获取居住类型",
+                "operationId": "getCategoriesList",
+                "responses": {
+                    "200": {
+                        "description": "获取成功"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "category"
+                ],
+                "summary": "创建一个类型",
+                "operationId": "addCategory",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Category"
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                },
+                "security": [
+                    {
+                        "petstore_auth": [
+                            "write:pets",
+                            "read:pets"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "title": "Category",
+                "description": "Category model",
+                "required": [
+                    "name",
+                    "photoUrls"
+                ],
+                "properties": {
+                    "title": {
+                        "schema": "Category",
+                        "title": "名称",
+                        "description": "类型的名称",
+                        "format": "string"
+                    },
+                    "type": {
+                        "schema": "Category",
+                        "title": "居住类型",
+                        "description": "居住类型",
+                        "format": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Category"
+                }
+            }
+        },
+        "requestBodies": {
+            "Category": {
+                "description": "Pet object that needs to be added to the store",
+                "required": true,
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "category",
+            "description": "居住的类型"
+        }
+    ]
+}
