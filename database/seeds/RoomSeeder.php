@@ -56,7 +56,7 @@ class RoomSeeder extends Seeder
         }
 
         foreach (['高1', '高2', '高3', '高4'] as $building) {
-            for ($i = 1; $i < 20; $i++) {
+            for ($i = 1; $i <= 20; $i++) {
                 if ($i === 13 || $i === 18) continue;
 
                 if ($building === '高1') {

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\CreateRoomRequest;
-use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Requests\RoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -22,7 +21,6 @@ class RoomController extends Controller
         $export =  $request->query('export', 0);
 
         $qb = Room::with(['category', 'area']);
-
         if ($areas) {
             $qb->whereIn('area_id', $areas);
         }
@@ -46,7 +44,6 @@ class RoomController extends Controller
                 $qb->withTrashed();
                 break;
         }
-
         // 需要导出数据
         if ($export) {
             return RoomResource::collection($qb->get());
@@ -54,11 +51,10 @@ class RoomController extends Controller
         return RoomResource::collection($qb->paginate($perPage));
     }
 
-    public function store(CreateRoomRequest $request)
+    public function store(RoomRequest $request)
     {
         // 验证本房间所属区域是否允许此用户添加
-        $this->authorize('area-create', [Room::class, $request->input('area_id')]);
-
+        $this->authorize('create', [Room::class, $request->input('area_id')]);
         Room::create($request->all());
         return $this->created();
     }
@@ -69,13 +65,11 @@ class RoomController extends Controller
         return new RoomResource($room);
     }
 
-    public function update(UpdateRoomRequest $request, $id)
+    public function update(RoomRequest $request, $id)
     {
         $room = Room::findOrFail($id);
-
         // 验证本房间所属区域及要修改为的区域是否允许此用户修改
-        $this->authorize('area-update', [Room::class, $room->area_id, $request->area_id]);
-
+        $this->authorize('update', [Room::class, $room->area_id, $request->area_id]);
         $room->fill($request->all());
         $room->save();
         return $this->updated();
@@ -84,10 +78,8 @@ class RoomController extends Controller
     public function delete($id)
     {
         $room = Room::findOrFail($id);
-
         // 验证本房间所属区域是否允许此用户删除
-        $this->authorize('area-delete', [Room::class, $room->area_id]);
-
+        $this->authorize('delete', [Room::class, $room->area_id]);
         $room->delete();
         return $this->deleted();
     }

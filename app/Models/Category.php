@@ -14,11 +14,18 @@ class Category extends Model
     const TYPE_COMPANY = 'company';
     const TYPE_FUNCTIONAL = 'functional';
 
-    protected $casts = [
-        'charge_rule' => 'array',
+    public static $types = [
+        self::TYPE_PERSON,
+        self::TYPE_COMPANY,
+        self::TYPE_FUNCTIONAL,
     ];
 
-    protected $dates = [];
+    protected $casts = [
+        'charge_rule' => 'array',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
+        'deleted_at' => 'date:Y-m-d',
+    ];
 
     protected $fillable = ['title', 'type', 'utility_type', 'charge_rule', 'remark', 'status'];
 

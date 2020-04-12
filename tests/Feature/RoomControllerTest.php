@@ -38,7 +38,7 @@ class RoomControllerTest extends TestCase
         $building1 = '1';
 
         $query1 = [
-            'per-page' => $perPage,
+            'per_page' => $perPage,
             'building' => $building1,
         ];
         $response1 = $this->withJwt()->getJson($this->buildQueryUrl('api/rooms', $query1));
@@ -52,6 +52,8 @@ class RoomControllerTest extends TestCase
             ->assertJsonCount(1, 'data');
 
         $allQuerys = [
+            'area_id' => [],
+            'category_id' => [],
             'title' => '1-1-',
             'building' => '1',
             'unit' => '2单元',

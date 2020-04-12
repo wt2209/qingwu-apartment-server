@@ -13,9 +13,9 @@ class AreaSeeder extends Seeder
     public function run()
     {
         $areas = [
-            ['title' => '职工公寓'],
-            ['title' => '协力公寓'],
-            ['title' => '青武公寓'],
+            ['title' => '职工公寓', 'description' => '职工公寓的描述'],
+            ['title' => '协力公寓', 'description' => '协力公寓的描述'],
+            ['title' => '青武公寓', 'description' => '青武公寓的描述'],
         ];
         foreach ($areas as $area) {
             Area::create($area);

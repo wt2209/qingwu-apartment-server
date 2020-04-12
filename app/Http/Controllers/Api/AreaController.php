@@ -2,86 +2,46 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\AreaRequest;
 use App\Models\Area;
 use Illuminate\Http\Request;
 use App\Http\Resources\AreaResource;
 
 class AreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', config('app.per_page', 20));
         return AreaResource::collection(Area::paginate($perPage));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(AreaRequest $request)
     {
-        //
+        $this->authorize('create', Area::class);
+        Area::create($request->all());
+        return $this->created();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        $area = Area::find($id);
+        return new AreaResource($area);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Area $area)
+    public function update(AreaRequest $request, $id)
     {
-        //
+        $this->authorize('update', Area::class);
+        $area = Area::findOrFail($id);
+        $area->fill($request->all());
+        $area->save();
+        return $this->updated();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Area $area)
+    public function delete($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Area $area)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Area $area)
-    {
-        //
+        $this->authorize('delete', Area::class);
+        $area = Area::findOrFail($id);
+        $area->delete();
+        return $this->deleted();
     }
 }

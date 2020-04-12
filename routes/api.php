@@ -37,4 +37,10 @@ Route::namespace('Api')
         Route::get('areas/{id}', 'AreaController@show')->name('areas.show');
         Route::put('areas/{id}', 'AreaController@update')->name('areas.update');
         Route::delete('areas/{id}', 'AreaController@delete')->name('areas.delete');
+
+        Route::get('categories', 'CategoryController@index')->name('categories.index');
+        Route::post('categories', 'CategoryController@store')->name('categories.store');
+        Route::get('categories/{id}', 'CategoryController@show')->name('categories.show');
+        Route::put('categories/{id}', 'CategoryController@update')->name('categories.update');
+        Route::delete('categories/{id}', 'CategoryController@delete')->name('categories.delete');
     });

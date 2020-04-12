@@ -14,7 +14,17 @@ class Room extends Model
     const STATUS_DELETED = 'deleted';
     const STATUS_USING = 'using';
 
-    protected $fillable = ['category_id', 'area_id', 'room_name', 'building', 'unit', 'rent', 'number', 'remark', 'status'];
+    protected $fillable = [
+        'category_id', 'area_id', 'title', 'building',
+        'unit', 'charge_rule', 'number', 'remark', 'status'
+    ];
+
+    protected $casts = [
+        'charge_rule' => 'array',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
+        'deleted_at' => 'date:Y-m-d',
+    ];
 
     public function records()
     {
