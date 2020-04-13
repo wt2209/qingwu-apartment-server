@@ -31,11 +31,11 @@ class CategoryController extends Controller
      *       }
      *     )
      *
-     * Returns list of projects
+     * Returns list of categories
      */
     public function index(Request $request)
     {
-        $perPage = $request->query('per_page', config('app.per_page', 20));
+        $perPage = $request->query('pageSize', config('app.pageSize', 20));
         $title = $request->query('title', '');
         $type = $request->query('type', '');
 
@@ -93,5 +93,13 @@ class CategoryController extends Controller
         $area = Category::findOrFail($id);
         $area->delete();
         return $this->deleted();
+    }
+
+    public function restore($id)
+    {
+        $this->authorize('restore', Category::class);
+        $room = Category::findOrFail($id);
+        $room->restore();
+        return $this->ok();
     }
 }

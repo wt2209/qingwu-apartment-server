@@ -11,7 +11,7 @@ class RoomController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage =  $request->query('per_page', config('app.per_page', 20));
+        $perPage =  $request->query('pageSize', config('app.pageSize', 20));
         $areas = $request->query('areas', []);
         $categories = $request->query('categories', []);
         $title =  $request->query('title', '');
@@ -82,5 +82,13 @@ class RoomController extends Controller
         $this->authorize('delete', [Room::class, $room->area_id]);
         $room->delete();
         return $this->deleted();
+    }
+
+    public function restore($id)
+    {
+        $this->authorize('restore', Room::class);
+        $room = Room::findOrFail($id);
+        $room->restore();
+        return $this->ok();
     }
 }

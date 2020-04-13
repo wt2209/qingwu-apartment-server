@@ -2,84 +2,43 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $pageSize = $request->query('pageSize', config('app.pageSize'), 20);
+        $name = $request->query('name', '');
+        $identify = $request->query('identify', '');
+        $phone = $request->query('phone', '');
+        // 工号
+        $serial = $request->query('serial', '');
+        $department = $request->query('department', '');
+        $export = $request->query('export', 0);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        $qb = Person::query();
+        if ($name) {
+            $qb->where('name', 'like', "%{$name}%");
+        }
+        if ($identify) {
+            $qb->where('identify', 'like', "%{$identify}%");
+        }
+        if ($phone) {
+            $qb->where('phone', 'like', "%{$phone}%");
+        }
+        if ($serial) {
+            $qb->where('serial', 'like', "%{$serial}%");
+        }
+        if ($department) {
+            $qb->where('department', 'like', "%{$department}%");
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Person $person)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Person $person)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Person $person)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Person $person)
-    {
-        //
+        if ($export) {
+            return PersonResource::collection($qb->get());
+        }
+        return PersonResource::collection($qb->paginate($pageSize));
     }
 }

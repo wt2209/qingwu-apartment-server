@@ -31,16 +31,20 @@ Route::namespace('Api')
         Route::get('rooms/{id}', 'RoomController@show')->name('rooms.show');
         Route::put('rooms/{id}', 'RoomController@update')->name('rooms.update');
         Route::delete('rooms/{id}', 'RoomController@delete')->name('rooms.delete');
+        Route::patch('rooms/{id}/restore', 'RoomController@restore')->name('rooms.restore');
 
         Route::get('areas', 'AreaController@index')->name('areas.index');
         Route::post('areas', 'AreaController@store')->name('areas.store');
         Route::get('areas/{id}', 'AreaController@show')->name('areas.show');
         Route::put('areas/{id}', 'AreaController@update')->name('areas.update');
         Route::delete('areas/{id}', 'AreaController@delete')->name('areas.delete');
+        Route::patch('areas/{id}/restore', 'AreaController@restore')->name('areas.restore');
 
         Route::get('categories', 'CategoryController@index')->name('categories.index');
         Route::post('categories', 'CategoryController@store')->name('categories.store');
         Route::get('categories/{id}', 'CategoryController@show')->name('categories.show');
         Route::put('categories/{id}', 'CategoryController@update')->name('categories.update');
         Route::delete('categories/{id}', 'CategoryController@delete')->name('categories.delete');
+
+        Route::get('people', 'PersonController@index')->name('people.index');
     });

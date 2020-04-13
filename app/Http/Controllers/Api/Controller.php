@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller as BaseController;
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="L5 OpenApi",
+ *      title="公寓管理系统 Api",
  *      description="公寓管理系统接口文档",
  *      @OA\Contact(
  *          email="wt2209@126.com"
@@ -22,16 +22,26 @@ class Controller extends BaseController
 {
     protected function created($message = '创建成功')
     {
-        return response()->json(['message' => $message], 201);
+        return $this->responseJson($message, 201);
     }
 
     protected function updated($message = '修改成功')
     {
-        return response()->json(['message' => $message], 200);
+        return $this->responseJson($message, 200);
     }
 
     protected function deleted($message = '删除成功')
     {
-        return response()->json(['message' => $message], 200);
+        return $this->responseJson($message, 200);
+    }
+
+    protected function ok($message = '操作成功')
+    {
+        return $this->responseJson($message, 200);
+    }
+
+    protected function responseJson($message, $code)
+    {
+        return response()->json(['message' => $message], $code);
     }
 }

@@ -2,7 +2,7 @@
 
 return [
     // 默认每一页的条数
-    'per_page' => 20,
+    'pageSize' => 20,
     // 超级管理员的用户名（username）
     'super_admin' => 'admin',
 
