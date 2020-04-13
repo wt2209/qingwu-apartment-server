@@ -11,7 +11,7 @@ class AreaControllerTest extends TestCase
 {
     public function test_get_areas()
     {
-        $perPage = config('app.per_page');
+        $perPage = config('app.pageSize');
         $response = $this->withJwt()->getJson('api/areas');
         $response->assertStatus(200)
             ->assertJsonStructure(['data', 'links', 'meta']);

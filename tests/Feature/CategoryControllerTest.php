@@ -11,7 +11,7 @@ class CategoryControllerTest extends TestCase
 {
     public function test_get_categoroies()
     {
-        $perPage = config('app.per_page');
+        $perPage = config('app.pageSize');
         $response = $this->withJwt()->getJson('api/categories');
         $response->assertStatus(200)
             ->assertJsonStructure(['data', 'links', 'meta']);
@@ -27,7 +27,7 @@ class CategoryControllerTest extends TestCase
     public function test_get_categoroies_with_query()
     {
 
-        $perPage = config('app.per_page');
+        $perPage = config('app.pageSize');
         $response = $this->withJwt()->getJson('api/categories');
         $response->assertStatus(200)
             ->assertJsonStructure(['data', 'links', 'meta']);

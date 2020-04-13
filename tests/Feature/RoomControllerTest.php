@@ -11,7 +11,7 @@ class RoomControllerTest extends TestCase
 {
     public function test_get_rooms_paginator_without_query()
     {
-        $perPage = config('app.per_page');
+        $perPage = config('app.pageSize');
         $response = $this->withJwt()->getJson('api/rooms');
         $response->assertStatus(200)
             ->assertJsonStructure(['data', 'links', 'meta']);
@@ -38,7 +38,7 @@ class RoomControllerTest extends TestCase
         $building1 = '1';
 
         $query1 = [
-            'per_page' => $perPage,
+            'pageSize' => $perPage,
             'building' => $building1,
         ];
         $response1 = $this->withJwt()->getJson($this->buildQueryUrl('api/rooms', $query1));
@@ -57,7 +57,7 @@ class RoomControllerTest extends TestCase
             'title' => '1-1-',
             'building' => '1',
             'unit' => '2单元',
-            'per_page' => 30,
+            'pageSize' => 30,
             'page' => 1
         ];
         $url3 = $this->buildQueryUrl('api/rooms', $allQuerys);
