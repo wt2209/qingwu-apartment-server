@@ -19,8 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 30)->default('');
             $table->string('type', 12)->default(Category::TYPE_PERSON)->comment('取值：person|company|functional');
-            $table->string('utility_type')->default('')->comment('水电费收费规则');
-            $table->string('remark')->default('');
+            $table->string('utility_type')->nullable()->comment('水电费收费规则');
+            $table->string('remark')->nullable();
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });

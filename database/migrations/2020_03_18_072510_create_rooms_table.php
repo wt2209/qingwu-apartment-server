@@ -22,7 +22,7 @@ class CreateRoomsTable extends Migration
             $table->string('building', 5)->default('');
             $table->string('unit')->default('');
             $table->integer('number')->default(1)->comment('房间最大人数');
-            $table->string('remark')->default('');
+            $table->string('remark')->nullable();
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });

@@ -107,8 +107,8 @@ class RoomSeeder extends Seeder
             }
         }
         foreach ($data as $k => $d) {
-            $d[$k]['area_id'] = 1;
-            $d[$k]['category_id'] = rand(1, 7);
+            $data[$k]['area_id'] = 1;
+            $data[$k]['category_id'] = rand(1, 7);
         }
         DB::table('rooms')->insert($data);
     }
@@ -121,7 +121,7 @@ class RoomSeeder extends Seeder
                 for ($number = 1; $number <= 17; $number++) {
                     $data[] = [
                         'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
-                        'building' => $building,
+                        'building' => $building . '#',
                         'unit' => $floor . '层',
                         'number' => 8,
                         'area_id' => 2,
@@ -141,7 +141,7 @@ class RoomSeeder extends Seeder
                 for ($number = 1; $number <= 17; $number++) {
                     $data[] = [
                         'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
-                        'building' => $building,
+                        'building' => $building . '#',
                         'unit' => $floor . '层',
                         'number' => 6,
                         'area_id' => 3,

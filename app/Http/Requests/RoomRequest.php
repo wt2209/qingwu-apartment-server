@@ -30,7 +30,6 @@ class RoomRequest extends FormRequest
             'building' => 'required',
             'unit' => 'required',
             'number' => 'integer',
-            'charge_rule' => 'array',
         ];
     }
 
@@ -47,7 +46,6 @@ class RoomRequest extends FormRequest
             'building.required' => '必须填写楼号',
             'unit.required' => '必须填写单元',
             'number.integer' => '请正确填写房间人数',
-            'charge_rule' => '请按示例正确填写缴费规则',
         ];
     }
 }
