@@ -33,8 +33,34 @@ class RoomSeeder extends Seeder
      */
     public function run()
     {
+        $this->zhigonggongyu();
+        $this->xieligongyu();
+        $this->qingwugongyu();
+    }
+
+    public function zhigonggongyu()
+    {
+        $duo = [
+            '红1' => ['1', '2'],
+            '红2' => ['1', '2', '3'],
+            '红3' => ['1', '2', '3', '4'],
+            '1' => ['1', '2'],
+            '2' => ['1', '2', '3', '4'],
+            '3' => ['1', '2', '3',],
+            '4' => ['1', '2', '3',],
+            '5' => ['1', '2', '3', '4'],
+            '6' => ['1', '2', '3', '4'],
+            '7' => ['1', '2', '3', '4', '5'],
+            '8' => ['1', '2', '3', '4'],
+            '9' => ['1', '2', '3', '4'],
+            '10' => ['1', '2', '3', '4'],
+            '11' => ['1', '2', '3', '4'],
+            '12' => ['1', '2', '3', '4'],
+            '13' => ['1', '2', '3', '4'],
+            '14' => ['1', '2', '3'],
+        ];
         $data = [];
-        foreach ($this->duo as $building => $units) {
+        foreach ($duo as $building => $units) {
             foreach ($units as $unit) {
                 for ($i = 1; $i <= 6; $i++) {
                     $number = $i === 6 ? 6 : 4;
@@ -44,7 +70,6 @@ class RoomSeeder extends Seeder
                         'unit' => $unit . '单元',
                         'number' => $number,
                     ];
-
                     $data[] = [
                         'title' => $building  . '-' . $unit  . '-' . $i . '02',
                         'building' => $building . '#',
@@ -58,7 +83,6 @@ class RoomSeeder extends Seeder
         foreach (['高1', '高2', '高3', '高4'] as $building) {
             for ($i = 1; $i <= 20; $i++) {
                 if ($i === 13 || $i === 18) continue;
-
                 if ($building === '高1') {
                     if ($i < 3 || $i > 17) continue;
 
@@ -80,10 +104,7 @@ class RoomSeeder extends Seeder
                         $unit = '17-20层';
                     }
                 }
-
-
                 $number = $building === '高2' ? 4 : 1;
-
                 $data[] = [
                     'title' => $building . '-' . $i . '01',
                     'building' => $building,
@@ -110,11 +131,48 @@ class RoomSeeder extends Seeder
                 ];
             }
         }
+        foreach ($data as $k => $d) {
+            $d[$k]['area_id'] = 1;
+            $d[$k]['category_id'] = rand(1, 7);
+        }
+        \DB::table('rooms')->insert($data);
+    }
 
-        foreach ($data as  $d) {
-            $d['area_id'] = 1;
-            $d['category_id'] = rand(1, 7);
-            Room::create($d);
+    public function xieligongyu()
+    {
+        $data = [];
+        for ($building = 1; $building <= 4; $building++) {
+            for ($floor = 1; $floor <= 17; $floor++) {
+                for ($number = 1; $number <= 17; $number++) {
+                    $data[] = [
+                        'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
+                        'building' => $building,
+                        'unit' => $floor . '层',
+                        'number' => 8,
+                        'area_id' => 2,
+                        'category_id' => 5,
+                    ];
+                }
+            }
+        }
+    }
+
+    public function qingwugongyu()
+    {
+        $data = [];
+        for ($building = 1; $building <= 5; $building++) {
+            for ($floor = 1; $floor <= 17; $floor++) {
+                for ($number = 1; $number <= 17; $number++) {
+                    $data[] = [
+                        'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
+                        'building' => $building,
+                        'unit' => $floor . '层',
+                        'number' => 6,
+                        'area_id' => 3,
+                        'category_id' => rand(1, 7),
+                    ];
+                }
+            }
         }
     }
 }
