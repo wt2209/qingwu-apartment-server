@@ -42,12 +42,6 @@ class CategoryControllerTest extends TestCase
         $category = Category::create([
             'title' => '新建的一个类型',
             'type' => Category::TYPE_PERSON,
-            'charge_rule' => [
-                [
-                    'title' => '租赁房租',
-                    'fees' => '600,700,800,900'
-                ]
-            ]
         ]);
 
         $query = [
@@ -79,12 +73,6 @@ class CategoryControllerTest extends TestCase
         $category = [
             'title' => '新建的一个类型',
             'type' => Category::TYPE_COMPANY,
-            'charge_rule' => [
-                [
-                    'title' => '租赁房租',
-                    'fees' => '600,700,800,900'
-                ]
-            ]
         ];
 
         $this->withJwt()->postJson('api/categories', $category)

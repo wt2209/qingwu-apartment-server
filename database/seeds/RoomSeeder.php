@@ -6,31 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 class RoomSeeder extends Seeder
 {
-    private $duo = [
-        '红1' => ['1', '2'],
-        '红2' => ['1', '2', '3'],
-        '红3' => ['1', '2', '3', '4'],
-        '1' => ['1', '2'],
-        '2' => ['1', '2', '3', '4'],
-        '3' => ['1', '2', '3',],
-        '4' => ['1', '2', '3',],
-        '5' => ['1', '2', '3', '4'],
-        '6' => ['1', '2', '3', '4'],
-        '7' => ['1', '2', '3', '4', '5'],
-        '8' => ['1', '2', '3', '4'],
-        '9' => ['1', '2', '3', '4'],
-        '10' => ['1', '2', '3', '4'],
-        '11' => ['1', '2', '3', '4'],
-        '12' => ['1', '2', '3', '4'],
-        '13' => ['1', '2', '3', '4'],
-        '14' => ['1', '2', '3'],
-    ];
-
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $this->zhigonggongyu();
@@ -135,7 +110,7 @@ class RoomSeeder extends Seeder
             $d[$k]['area_id'] = 1;
             $d[$k]['category_id'] = rand(1, 7);
         }
-        \DB::table('rooms')->insert($data);
+        DB::table('rooms')->insert($data);
     }
 
     public function xieligongyu()
@@ -155,6 +130,7 @@ class RoomSeeder extends Seeder
                 }
             }
         }
+        DB::table('rooms')->insert($data);
     }
 
     public function qingwugongyu()
@@ -174,5 +150,6 @@ class RoomSeeder extends Seeder
                 }
             }
         }
+        DB::table('rooms')->insert($data);
     }
 }

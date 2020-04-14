@@ -99,7 +99,6 @@ class RoomControllerTest extends TestCase
             'area_id' => 1,
             'category_id' => 1,
             'number' => 0,
-            'charge_rule' => [],
         ];
         $response1 = $this->withJwt()->postJson('api/rooms', $data);
         $response1->assertStatus(422)->assertJsonStructure(['error']);
@@ -111,7 +110,6 @@ class RoomControllerTest extends TestCase
             'area_id' => 1,
             'category_id' => 1,
             'number' => 0,
-            'charge_rule' => [],
         ];
         $response2 = $this->withJwt()->postJson('api/rooms', $data2);
         $response2->assertStatus(201)->assertJsonStructure(['message']);
@@ -126,7 +124,6 @@ class RoomControllerTest extends TestCase
             'area_id' => 1,
             'category_id' => 1,
             'number' => 0,
-            'charge_rule' => [],
         ];
         $response1 = $this->withJwt()->putJson('api/rooms/1', $data1);
         $response1->assertStatus(422);
@@ -138,7 +135,6 @@ class RoomControllerTest extends TestCase
             'area_id' => 1,
             'category_id' => 1,
             'number' => 0,
-            'charge_rule' => [],
         ];
         $response2 = $this->withJwt()->putJson('api/rooms/1', $data2);
         $response2->assertOk()->assertJsonStructure(['message']);

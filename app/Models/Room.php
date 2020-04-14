@@ -16,7 +16,7 @@ class Room extends Model
 
     protected $fillable = [
         'category_id', 'area_id', 'title', 'building',
-        'unit', 'charge_rule', 'number', 'remark', 'status'
+        'unit', 'number', 'remark', 'status'
     ];
 
     protected $casts = [

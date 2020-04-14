@@ -69,7 +69,7 @@ class Category extends Model
         'deleted_at' => 'date:Y-m-d',
     ];
 
-    protected $fillable = ['title', 'type', 'utility_type', 'charge_rule', 'remark', 'status'];
+    protected $fillable = ['title', 'type', 'utility_type', 'remark', 'status'];
 
     public function records()
     {
