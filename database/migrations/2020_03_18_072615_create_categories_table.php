@@ -20,7 +20,6 @@ class CreateCategoriesTable extends Migration
             $table->string('title', 30)->default('');
             $table->string('type', 12)->default(Category::TYPE_PERSON)->comment('取值：person|company|functional');
             $table->string('utility_type')->default('')->comment('水电费收费规则');
-            $table->json('charge_rule')->nullable();
             $table->string('remark')->default('');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
