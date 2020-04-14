@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AreaSeeder::class);
         $this->call(RoomSeeder::class);
         if (App::environment('local') || App::environment('testing')) {
+            $this->call(FeeTypeSeeder::class);
+            $this->call(ChargeRuleSeeder::class);
             $this->call(CategorySeeder::class);
             $this->call(PersonSeeder::class);
             $this->call(CompanySeeder::class);

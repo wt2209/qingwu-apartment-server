@@ -9,6 +9,12 @@ use Tests\TestCase;
 
 class RoomControllerTest extends TestCase
 {
+    public function test_authorization()
+    {
+        $this->getJson('api/rooms')->assertUnauthorized();
+        $this->withJwt()->getJson('api/rooms')->assertOk();
+    }
+
     public function test_get_rooms_paginator_without_query()
     {
         $perPage = config('app.pageSize');

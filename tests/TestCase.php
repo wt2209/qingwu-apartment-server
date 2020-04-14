@@ -45,10 +45,4 @@ abstract class TestCase extends BaseTestCase
     {
         return $url . '?' . http_build_query($query);
     }
-
-    public function test_authorization()
-    {
-        $this->getJson('api/rooms')->assertUnauthorized();
-        $this->withJwt()->getJson('api/rooms')->assertOk();
-    }
 }

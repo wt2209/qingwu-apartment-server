@@ -49,4 +49,8 @@ Route::namespace('Api')
         Route::delete('categories/{id}', 'CategoryController@delete')->name('categories.delete');
 
         Route::get('people', 'PersonController@index')->name('people.index');
+
+        Route::get('charge-rules', 'ChargeRuleController@index')->name('charge-rules.index');
+
+        Route::get('fee-types', 'FeeTypeController@index')->name('fee-types.index');
     });
