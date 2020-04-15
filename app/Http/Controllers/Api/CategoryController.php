@@ -15,6 +15,10 @@ use Illuminate\Http\Request;
  */
 class CategoryController extends Controller
 {
+    public function getAllCategories()
+    {
+        return CategoryResource::collection(Category::all());
+    }
     /**
      * @OA\Get(
      *      path="api/categories",
@@ -38,6 +42,7 @@ class CategoryController extends Controller
         $perPage = $request->query('pageSize', config('app.pageSize', 20));
         $title = $request->query('title', '');
         $type = $request->query('type', '');
+        $status =  $request->query('status', Category::STATUS_ALL);
 
         $queryBuilder = Category::query();
         if ($title) {
@@ -45,6 +50,14 @@ class CategoryController extends Controller
         }
         if (in_array($type, Category::$types)) {
             $queryBuilder->where('type', $type);
+        }
+        switch ($status) {
+            case Category::STATUS_DELETED:
+                $queryBuilder->onlyTrashed();
+                break;
+            case Category::STATUS_ALL:
+                $queryBuilder->withTrashed();
+                break;
         }
         return CategoryResource::collection($queryBuilder->paginate($perPage));
     }
@@ -98,7 +111,7 @@ class CategoryController extends Controller
     public function restore($id)
     {
         $this->authorize('restore', Category::class);
-        $room = Category::findOrFail($id);
+        $room = Category::onlyTrashed()->findOrFail($id);
         $room->restore();
         return $this->ok();
     }

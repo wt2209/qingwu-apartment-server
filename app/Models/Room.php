@@ -19,12 +19,6 @@ class Room extends Model
         'unit', 'number', 'remark', 'status'
     ];
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
-        'deleted_at' => 'date:Y-m-d',
-    ];
-
     public function records()
     {
         return $this->hasMany(Record::class);
@@ -37,7 +31,7 @@ class Room extends Model
 
     public function area()
     {
-        return $this->belongsTo(Area::class, 'area_id', 'id');
+        return $this->belongsTo(Area::class);
     }
 
     public static function booted()

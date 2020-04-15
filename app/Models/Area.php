@@ -10,13 +10,11 @@ class Area extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description'];
+    const STATUS_ALL = 'all';
+    const STATUS_DELETED = 'deleted';
+    const STATUS_USING = 'using';
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
-        'deleted_at' => 'date:Y-m-d',
-    ];
+    protected $fillable = ['title', 'description'];
 
     public function rooms()
     {

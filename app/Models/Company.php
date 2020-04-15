@@ -9,12 +9,6 @@ class Company extends Model
 {
     protected $fillable = ['company_name', 'manager', 'manager_phone', 'linkman', 'linkman_phone', 'entered_at', 'remark'];
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
-    ];
-
-
     public function records()
     {
         return $this->hasMany(Record::class);

@@ -20,6 +20,7 @@ class CreateChargeRulesTable extends Migration
             $table->json('rule')->nullable();
             // 缴费间隔周期（月数）
             $table->unsignedInteger('period')->default(1);
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }

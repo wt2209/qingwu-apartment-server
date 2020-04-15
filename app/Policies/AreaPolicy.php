@@ -42,4 +42,12 @@ class AreaPolicy
     {
         return false;
     }
+
+    /**
+     * 用户是否可以删除区域（area）
+     */
+    public function restore(User $user)
+    {
+        return false;
+    }
 }

@@ -45,14 +45,24 @@ class RoomController extends Controller
         $building = $request->query('building', '');
         $unit =  $request->query('unit', '');
         $status =  $request->query('status', Room::STATUS_ALL);
-        $export =  $request->query('export', 0);
 
-        $qb = Room::with(['category', 'area']);
+        $qb = Room::with([
+            'category' => function ($query) {
+                $query->withTrashed();
+            },
+            'area' => function ($query) {
+                $query->withTrashed();
+            }
+        ]);
         if ($areas) {
-            $qb->whereIn('area_id', $areas);
+            is_array($areas)
+                ? $qb->whereIn('area_id', $areas)
+                : $qb->where('area_id', $areas);
         }
         if ($categories) {
-            $qb->whereIn('category_id', $categories);
+            is_array($categories)
+                ? $qb->whereIn('category_id', $categories)
+                : $qb->where('category_id', $categories);
         }
         if ($title) {
             $qb->where('title', 'like', "{$title}%");
@@ -70,10 +80,6 @@ class RoomController extends Controller
             case Room::STATUS_ALL:
                 $qb->withTrashed();
                 break;
-        }
-        // 需要导出数据
-        if ($export) {
-            return RoomResource::collection($qb->get());
         }
         return RoomResource::collection($qb->paginate($perPage));
     }
@@ -114,7 +120,7 @@ class RoomController extends Controller
     public function restore($id)
     {
         $this->authorize('restore', Room::class);
-        $room = Room::findOrFail($id);
+        $room = Room::onlyTrashed()->findOrFail($id);
         $room->restore();
         return $this->ok();
     }

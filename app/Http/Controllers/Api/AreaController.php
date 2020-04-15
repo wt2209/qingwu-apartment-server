@@ -9,10 +9,26 @@ use App\Http\Resources\AreaResource;
 
 class AreaController extends Controller
 {
+    public function getAllAreas()
+    {
+        return AreaResource::collection(Area::all());
+    }
+
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', config('app.per_page', 20));
-        return AreaResource::collection(Area::paginate($perPage));
+        $status =  $request->query('status', Area::STATUS_ALL);
+
+        $qb = Area::query();
+        switch ($status) {
+            case Area::STATUS_DELETED:
+                $qb->onlyTrashed();
+                break;
+            case Area::STATUS_ALL:
+                $qb->withTrashed();
+                break;
+        }
+        return AreaResource::collection($qb->paginate($perPage));
     }
 
     public function store(AreaRequest $request)
@@ -43,5 +59,13 @@ class AreaController extends Controller
         $area = Area::findOrFail($id);
         $area->delete();
         return $this->deleted();
+    }
+
+    public function restore($id)
+    {
+        $this->authorize('restore', Area::class);
+        $area = Area::onlyTrashed()->findOrFail($id);
+        $area->restore();
+        return $this->ok();
     }
 }

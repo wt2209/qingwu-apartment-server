@@ -72,20 +72,6 @@ class RoomControllerTest extends TestCase
             ->assertJsonCount(0, 'data');
     }
 
-    public function test_get_rooms_need_export()
-    {
-        $building = '1#';
-        $query = [
-            'building' => $building,
-            'export' => 1
-        ];
-        $response = $this->withJwt()->getJson($this->buildQueryUrl('api/rooms', $query));
-        $response->assertOk();
-        $data = $response->json('data');
-        $total = Room::where('building', $building)->count();
-        $this->assertEquals(count($data), $total);
-    }
-
     public function test_show_a_room()
     {
         $response = $this->withJwt()->getJson('api/rooms/1');

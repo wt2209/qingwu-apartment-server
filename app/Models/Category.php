@@ -52,6 +52,10 @@ class Category extends Model
 {
     use SoftDeletes;
 
+    const STATUS_ALL = 'all';
+    const STATUS_DELETED = 'deleted';
+    const STATUS_USING = 'using';
+
     const TYPE_PERSON = 'person';
     const TYPE_COMPANY = 'company';
     const TYPE_FUNCTIONAL = 'functional';
@@ -64,9 +68,6 @@ class Category extends Model
 
     protected $casts = [
         'charge_rule' => 'array',
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
-        'deleted_at' => 'date:Y-m-d',
     ];
 
     protected $fillable = ['title', 'type', 'utility_type', 'remark', 'status'];

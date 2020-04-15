@@ -13,11 +13,6 @@ class Person extends Model
         'contract_end', 'emergency_person', 'emergency_phone', 'origin'
     ];
 
-    protected $casts = [
-        'created_at' => 'date:Y-m-d',
-        'updated_at' => 'date:Y-m-d',
-    ];
-
     public function records()
     {
         return $this->hasMany(Record::class);
