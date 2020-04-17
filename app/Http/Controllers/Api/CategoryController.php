@@ -103,16 +103,16 @@ class CategoryController extends Controller
     public function delete($id)
     {
         $this->authorize('delete', Category::class);
-        $area = Category::findOrFail($id);
-        $area->delete();
+        $category = Category::findOrFail($id);
+        $category->delete();
         return $this->deleted();
     }
 
     public function restore($id)
     {
         $this->authorize('restore', Category::class);
-        $room = Category::onlyTrashed()->findOrFail($id);
-        $room->restore();
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
         return $this->ok();
     }
 }

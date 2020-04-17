@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CategoryRequest extends FormRequest
+class FeeTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,12 +28,10 @@ class CategoryRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                $id ? Rule::unique('categories') : Rule::unique('categories')->ignore($id),
+                Rule::unique('fee_types')->ignore($id),
             ],
-            'type' => [
-                'required',
-                Rule::in(Category::$types)
-            ]
+            'turn_in' => 'required|boolean',
+            'rate' => 'numeric',
         ];
     }
 
@@ -42,9 +39,10 @@ class CategoryRequest extends FormRequest
     {
         return [
             'title.required' => '名称必须填写',
-            'title.unique' => '名称已经存在',
-            'type.required' => '必须选择一个类型',
-            'type.in' => '类型选择错误',
+            'title.unique' => '此名称已存在',
+            'turn_in.required' => '必须选择是否上交',
+            'turn_in.boolean' => '非法的是否上交字段',
+            'rate.numeric' => '每日滞纳金率必须是一个数字',
         ];
     }
 }

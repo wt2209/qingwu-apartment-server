@@ -21,7 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('linkman', 4)->default('')->comment('日常联系人');
             $table->string('linkman_phone', 13)->default('')->comment('联系人电话');
             $table->date('entered_at')->default('1000-01-01')->comment('公司入住时间');
-            $table->string('remark')->default('');
+            $table->string('remark')->nullable();
             $table->index('company_name');
             $table->timestamps();
         });

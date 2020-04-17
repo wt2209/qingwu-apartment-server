@@ -29,6 +29,7 @@ Route::namespace('Api')
         Route::get('all-categories', 'CategoryController@getAllCategories')->name('get-all-categories');
         Route::get('all-areas', 'AreaController@getAllAreas')->name('get-all-areas');
         Route::get('room-tree', 'RoomController@tree')->name('room-tree');
+        Route::get('all-fee-types', 'FeeTypeController@getAllFeeTypes')->name('all-fee-types');
 
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。
@@ -56,6 +57,14 @@ Route::namespace('Api')
         Route::get('people', 'PersonController@index')->name('people.index');
 
         Route::get('charge-rules', 'ChargeRuleController@index')->name('charge-rules.index');
+        Route::post('charge-rules', 'ChargeRuleController@store')->name('charge-rules.store');
+        Route::put('charge-rules/{id}', 'ChargeRuleController@update')->name('charge-rules.update');
+        Route::delete('charge-rules/{id}', 'ChargeRuleController@delete')->name('charge-rules.delete');
+        Route::patch('charge-rules/{id}', 'ChargeRuleController@restore')->name('charge-rules.restore');
 
         Route::get('fee-types', 'FeeTypeController@index')->name('fee-types.index');
+        Route::post('fee-types', 'FeeTypeController@store')->name('fee-types.store');
+        Route::put('fee-types/{id}', 'FeeTypeController@update')->name('fee-types.update');
+        Route::delete('fee-types/{id}', 'FeeTypeController@delete')->name('fee-types.delete');
+        Route::patch('fee-types/{id}', 'FeeTypeController@restore')->name('fee-types.restore');
     });

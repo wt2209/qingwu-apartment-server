@@ -17,7 +17,9 @@ class CreateFeeTypesTable extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->boolean('turn_in')->default(true)->comment('是否上交财务');
-            $table->string('remark')->default('');
+            $table->decimal('rate', 6, 3)->default(0)->comment('每日滞纳金率');
+            $table->string('remark')->nullable();
+            $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
     }

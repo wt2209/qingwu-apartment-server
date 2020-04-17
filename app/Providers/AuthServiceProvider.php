@@ -4,13 +4,17 @@ namespace App\Providers;
 
 use App\Models\Area;
 use App\Models\Category;
+use App\Models\ChargeRule;
 use App\Models\Company;
+use App\Models\FeeType;
 use App\Models\Person;
 use App\Models\Record;
 use App\Models\Room;
 use App\Policies\AreaPolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\ChargeRulePolicy;
 use App\Policies\CompanyPolicy;
+use App\Policies\FeeTypePolicy;
 use App\Policies\PersonPolicy;
 use App\Policies\RecordPolicy;
 use App\Policies\RoomPolicy;
@@ -31,6 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Company::class => CompanyPolicy::class,
         Record::class => RecordPolicy::class,
         Person::class => PersonPolicy::class,
+        ChargeRule::class => ChargeRulePolicy::class,
+        FeeType::class => FeeTypePolicy::class,
     ];
 
     /**

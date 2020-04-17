@@ -86,6 +86,7 @@ class RoomControllerTest extends TestCase
     {
         $data = [
             'title' => '',
+            'area_id' => 1,
             'building' => '1#',
             'unit' => '1单元',
             'area_id' => 1,
@@ -96,7 +97,7 @@ class RoomControllerTest extends TestCase
         $response1->assertStatus(422)->assertJsonStructure(['error']);
 
         $data2 = [
-            'title' => '1-1-101',
+            'title' => '1-1-1011',
             'building' => '1#',
             'unit' => '1单元',
             'area_id' => 1,
