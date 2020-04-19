@@ -30,6 +30,9 @@ Route::namespace('Api')
         Route::get('all-areas', 'AreaController@getAllAreas')->name('get-all-areas');
         Route::get('room-tree', 'RoomController@tree')->name('room-tree');
         Route::get('all-fee-types', 'FeeTypeController@getAllFeeTypes')->name('all-fee-types');
+        Route::get('all-charge-rules', 'ChargeRuleController@getAllChargeRules')->name('all-charge-rules');
+
+        Route::get('livings', 'LivingController@index')->name('livings.index');
 
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。

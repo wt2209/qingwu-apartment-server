@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class ChargeRuleController extends Controller
 {
+    public function getAllChargeRules(Request $request)
+    {
+        $type = $request->query('type', '');
+        $qb = ChargeRule::query();
+        if ($type) {
+            $qb->where('type', $type);
+        }
+        return ChargeRuleResource::collection($qb->get());
+    }
+
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', config('app.per_page', 20));
