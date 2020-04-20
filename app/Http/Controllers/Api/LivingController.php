@@ -21,8 +21,12 @@ class LivingController extends Controller
         $areaId = $request->query('area_id', 0);
 
         $qb = Room::with([
-            'area',
-            'category',
+            'area' => function ($query) {
+                $query->withTrashed();
+            },
+            'category' => function ($query) {
+                $query->withTrashed();
+            },
             'records',
             'records.person',
             'records.company',
