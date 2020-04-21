@@ -21,10 +21,12 @@ class CreateRecordsTable extends Migration
             $table->unsignedBigInteger('room_id')->default(0);
             $table->unsignedBigInteger('person_id')->default(0);
             $table->unsignedBigInteger('company_id')->default(0);
+            $table->string('functional_title')->default('')->comment('功能性用房的标题');
             $table->unsignedBigInteger('charge_rule_id')->default(0);
             $table->date('record_at')->default('1000-01-01')->comment('记录时间（入住时间）');
             $table->date('rent_start')->default('1000-01-01')->comment('入住期限开始日期');
             $table->date('rent_end')->default('1000-01-01')->comment('入住期限结束日期');
+            $table->json('proof_files')->nullable();
             $table->string('status', 10)->default('living')->comment('取值：living|quitted|moved');
             $table->unsignedBigInteger('to_room')->default(0)->comment('调房后的房间id');
             $table->timestamps();
