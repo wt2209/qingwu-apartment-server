@@ -23,6 +23,9 @@ Route::namespace('Api')
     ->name('api.')
     ->middleware('auth:api')
     ->group(function () {
+        Route::post('file-upload', 'UploadController@upload')->name('file.upload');
+        Route::delete('file-remove', 'UploadController@remove')->name('file.remove');
+
         Route::post('/auth/logout', 'UserController@logout')->name('auth.logout');
         Route::get('/users/current-user', 'UserController@me')->name('users.me');
 
