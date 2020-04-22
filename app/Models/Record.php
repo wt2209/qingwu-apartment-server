@@ -4,16 +4,23 @@ namespace App\Models;
 
 use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Record extends Model
 {
+    use SoftDeletes;
+
     const STATUS_LIVING = 'living';
     const STATUS_QUITTED = 'quitted';
     const STATUS_MOVED = 'moved';
 
     protected $fillable = [
-        'type', 'category_id', 'room_id', 'person_id',
-        'company_id', 'record_at', 'rent_start', 'rent_end'
+        'type', 'area_id', 'category_id', 'room_id', 'person_id',
+        'company_id', 'record_at', 'rent_start', 'rent_end', 'proof_files',
+    ];
+
+    protected $casts = [
+        'proof_files' => 'array',
     ];
 
     public function category()

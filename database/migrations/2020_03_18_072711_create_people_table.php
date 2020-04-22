@@ -31,6 +31,7 @@ class CreatePeopleTable extends Migration
             $table->string('origin')->default('')->comment('籍贯');
             $table->string('spouse')->default('')->comment('配偶');
             $table->string('spouse_identify')->default('');
+            $table->string('remark')->default('');
             $table->index('name');
             $table->timestamps();
         });

@@ -29,6 +29,7 @@ class CreateRecordsTable extends Migration
             $table->json('proof_files')->nullable();
             $table->string('status', 10)->default('living')->comment('取值：living|quitted|moved');
             $table->unsignedBigInteger('to_room')->default(0)->comment('调房后的房间id');
+            $table->softDeletes('deleted_at');
             $table->timestamps();
         });
     }

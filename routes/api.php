@@ -36,6 +36,7 @@ Route::namespace('Api')
         Route::get('all-charge-rules', 'ChargeRuleController@getAllChargeRules')->name('all-charge-rules');
 
         Route::get('livings', 'LivingController@index')->name('livings.index');
+        Route::post('livings', 'LivingController@store')->name('livings.store');
 
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。

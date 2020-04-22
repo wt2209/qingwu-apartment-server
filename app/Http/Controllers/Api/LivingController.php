@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\LivingResource;
 use App\Models\Area;
+use App\Models\Company;
+use App\Models\Person;
+use App\Models\Record;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LivingController extends Controller
 {
@@ -75,5 +78,36 @@ class LivingController extends Controller
             return LivingResource::collection($rooms);
         }
         return LivingResource::collection([]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        DB::transaction(function () use ($data) {
+            $record = Record::create($data);
+            if ($data['type'] === 'person') {
+                $personData = $data['person'];
+                if (isset($personData['identify']) && $personData['identify']) {
+                    $person = Person::updateOrCreate(
+                        ['identify' => $personData['identify']],
+                        $personData
+                    );
+                } else {
+                    $person = Person::Create($personData);
+                }
+                $record->person()->associate($person);
+                $record->save();
+            } else if ($data['type'] === 'company') {
+                $companyData = $data['company'];
+                $company = Company::updateOrCreate(
+                    ['company_name' => $companyData['company_name']],
+                    $companyData
+                );
+                $record->company()->associate($company);
+                $record->save();
+            }
+        });
+
+        return $this->created();
     }
 }

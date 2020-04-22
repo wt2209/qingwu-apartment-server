@@ -10,7 +10,7 @@ class Person extends Model
     protected $fillable = [
         'name', 'area_id', 'gender', 'education', 'serial', 'identify',
         'phone', 'department', 'hired_at', 'entered_at', 'contract_start',
-        'contract_end', 'emergency_person', 'emergency_phone', 'origin'
+        'contract_end', 'emergency_person', 'emergency_phone', 'origin', 'remark',
     ];
 
     public function records()
