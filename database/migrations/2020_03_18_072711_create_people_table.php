@@ -23,7 +23,6 @@ class CreatePeopleTable extends Migration
             $table->string('phone', 13)->default('');
             $table->string('department', 20)->default('')->comment('部门');
             $table->date('hired_at')->default('1000-01-01')->comment('入职时间');
-            $table->date('entered_at')->default('1000-01-01')->comment('入住日期');
             $table->date('contract_start')->default('1000-01-01')->comment('劳动合同开始日');
             $table->date('contract_end')->default('1000-01-01')->comment('劳动合同结束日');
             $table->string('emergency_person', 4)->default('')->comment('紧急联系人');

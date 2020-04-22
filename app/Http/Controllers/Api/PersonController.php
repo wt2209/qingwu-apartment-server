@@ -17,9 +17,9 @@ class PersonController extends Controller
         // 工号
         $serial = $request->query('serial', '');
         $department = $request->query('department', '');
-        $export = $request->query('export', 0);
 
         $qb = Person::query();
+        $qb->withCount('records');
         if ($name) {
             $qb->where('name', 'like', "%{$name}%");
         }
@@ -36,9 +36,6 @@ class PersonController extends Controller
             $qb->where('department', 'like', "%{$department}%");
         }
 
-        if ($export) {
-            return PersonResource::collection($qb->get());
-        }
         return PersonResource::collection($qb->paginate($pageSize));
     }
 }

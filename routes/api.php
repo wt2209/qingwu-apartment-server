@@ -74,4 +74,8 @@ Route::namespace('Api')
         Route::put('fee-types/{id}', 'FeeTypeController@update')->name('fee-types.update');
         Route::delete('fee-types/{id}', 'FeeTypeController@delete')->name('fee-types.delete');
         Route::patch('fee-types/{id}', 'FeeTypeController@restore')->name('fee-types.restore');
+
+        Route::get('records', 'RecordController@index')->name('records.index');
+
+        Route::get('companies', 'CompanyController@index')->name('company.index');
     });

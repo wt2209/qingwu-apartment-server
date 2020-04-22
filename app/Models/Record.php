@@ -23,6 +23,11 @@ class Record extends Model
         'proof_files' => 'array',
     ];
 
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -46,6 +51,16 @@ class Record extends Model
     public function toRoom()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function getRentStartAttribute($value)
+    {
+        return $value === '1000-01-01' ? '' : $value;
+    }
+
+    public function getRentEndAttribute($value)
+    {
+        return $value === '1000-01-01' ? '' : $value;
     }
 
     public static function booted()
