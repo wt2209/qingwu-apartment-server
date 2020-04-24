@@ -8,6 +8,21 @@ use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
+    public function getOnePerson(Request $request)
+    {
+        $identify = $request->input('identify', '');
+
+        $selects = [
+            'id', 'name', 'identify', 'serial', 'gender',
+            'education', 'phone', 'department', 'hired_at', 'remark'
+        ];
+        if ($identify) {
+            $person = Person::select($selects)->where('identify', $identify)->first();
+            return new PersonResource($person);
+        }
+        return new PersonResource(null);
+    }
+
     public function index(Request $request)
     {
         $pageSize = $request->query('pageSize', config('app.pageSize'), 20);
@@ -19,7 +34,6 @@ class PersonController extends Controller
         $department = $request->query('department', '');
 
         $qb = Person::query();
-        $qb->withCount('records');
         if ($name) {
             $qb->where('name', 'like', "%{$name}%");
         }

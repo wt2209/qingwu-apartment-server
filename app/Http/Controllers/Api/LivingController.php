@@ -52,7 +52,7 @@ class LivingController extends Controller
                 $qb->where('area_id', $areaId);
             }
             if (strpos($keyword, '-') !== false) { // is building
-                $keyword = str_replace('g', '高', $keyword);
+                $keyword = str_replace(['g', 'h'], ['高', '红'], $keyword);
                 $rooms = $qb->where('title', 'like', "{$keyword}%")
                     ->paginate($pageSize);
             } elseif (is_numeric($keyword)) { // is phone

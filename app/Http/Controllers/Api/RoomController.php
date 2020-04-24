@@ -41,6 +41,7 @@ class RoomController extends Controller
         $perPage =  $request->query('pageSize', config('app.pageSize', 20));
         $areas = $request->query('areas', []);
         $categories = $request->query('categories', []);
+        $chargeRuleId = $request->query('charge_rule_id', 0);
         $title =  $request->query('title', '');
         $building = $request->query('building', '');
         $unit =  $request->query('unit', '');
@@ -52,7 +53,10 @@ class RoomController extends Controller
             },
             'area' => function ($query) {
                 $query->withTrashed();
-            }
+            },
+            'chargeRule' => function ($query) {
+                $query->withTrashed();
+            },
         ]);
         if ($areas) {
             is_array($areas)
@@ -63,6 +67,9 @@ class RoomController extends Controller
             is_array($categories)
                 ? $qb->whereIn('category_id', $categories)
                 : $qb->where('category_id', $categories);
+        }
+        if ($chargeRuleId) {
+            $qb->where('charge_rule_id', $chargeRuleId);
         }
         if ($title) {
             $qb->where('title', 'like', "{$title}%");

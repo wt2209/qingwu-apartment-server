@@ -34,6 +34,9 @@ Route::namespace('Api')
         Route::get('room-tree', 'RoomController@tree')->name('room-tree');
         Route::get('all-fee-types', 'FeeTypeController@getAllFeeTypes')->name('all-fee-types');
         Route::get('all-charge-rules', 'ChargeRuleController@getAllChargeRules')->name('all-charge-rules');
+        Route::get('all-companies', 'CompanyController@getAllCompanies')->name('all-companies');
+        Route::get('one-company', 'CompanyController@getOneCompany')->name('one-company');
+        Route::get('one-person', 'PersonController@getOnePerson')->name('one-person');
 
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');

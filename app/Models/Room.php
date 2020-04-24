@@ -15,7 +15,7 @@ class Room extends Model
     const STATUS_USING = 'using';
 
     protected $fillable = [
-        'category_id', 'area_id', 'title', 'building',
+        'category_id', 'area_id', 'charge_rule_id', 'title', 'building',
         'unit', 'number', 'remark', 'status'
     ];
 
@@ -32,6 +32,11 @@ class Room extends Model
     public function area()
     {
         return $this->belongsTo(Area::class);
+    }
+
+    public function chargeRule()
+    {
+        return $this->belongsTo(ChargeRule::class);
     }
 
     public static function booted()

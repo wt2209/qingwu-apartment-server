@@ -18,6 +18,7 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('area_id')->default(0);
             $table->unsignedBigInteger('category_id')->default(0);
+            $table->unsignedBigInteger('charge_rule_id')->default(0);
             $table->string('title', 10)->default('')->index();
             $table->string('building', 5)->default('');
             $table->string('unit')->default('');
