@@ -110,4 +110,15 @@ class LivingController extends Controller
 
         return $this->created();
     }
+
+    public function quit($id, Request $request)
+    {
+        $record = Record::findOrFail($id);
+        $record->deleted_at = $request->deleted_at;
+        $record->electric_end_base = $request->electric_end_base;
+        $record->water_end_base = $request->water_end_base;
+        $record->status = Record::STATUS_QUITTED;
+        $record->save();
+        return $this->deleted();
+    }
 }

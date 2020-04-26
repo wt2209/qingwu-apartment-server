@@ -27,6 +27,10 @@ class CreateRecordsTable extends Migration
             $table->date('rent_start')->default('1000-01-01')->comment('入住期限开始日期');
             $table->date('rent_end')->default('1000-01-01')->comment('入住期限结束日期');
             $table->json('proof_files')->nullable();
+            $table->integer('electric_start_base')->nullable();
+            $table->integer('electric_end_base')->nullable();
+            $table->integer('water_start_base')->nullable();
+            $table->integer('water_end_base')->nullable();
             $table->string('status', 10)->default('living')->comment('取值：living|quitted|moved');
             $table->unsignedBigInteger('to_room')->default(0)->comment('调房后的房间id');
             $table->softDeletes('deleted_at');

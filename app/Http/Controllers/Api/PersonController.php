@@ -13,7 +13,7 @@ class PersonController extends Controller
         $identify = $request->input('identify', '');
 
         $selects = [
-            'id', 'name', 'identify', 'serial', 'gender',
+            'id', 'name', 'identify', 'serial', 'gender', 'contract_start', 'contract_end',
             'education', 'phone', 'department', 'hired_at', 'remark'
         ];
         if ($identify) {

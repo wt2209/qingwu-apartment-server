@@ -11,7 +11,8 @@ class RecordController extends Controller
     public function index(Request $request)
     {
         $pageSize = $request->query('pageSize', config('app.pageSiez', 20));
-        $qb = Record::with(['person', 'room', 'category', 'area', 'company', 'toRoom']);
+        $qb = Record::with(['person', 'room', 'category', 'area', 'company', 'toRoom'])
+            ->withTrashed();
 
         return RecordResource::collection($qb->paginate($pageSize));
     }
