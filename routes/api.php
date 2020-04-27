@@ -38,10 +38,11 @@ Route::namespace('Api')
         Route::get('one-company', 'CompanyController@getOneCompany')->name('one-company');
         Route::get('one-person', 'PersonController@getOnePerson')->name('one-person');
 
+        Route::get('livings/{id}', 'LivingController@getOneLiving')->name('livings.one');
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');
+        Route::put('livings/{id}', 'livingController@update')->name('livings.update');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
-
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。
         Route::get('rooms', 'RoomController@index')->name('rooms.index');

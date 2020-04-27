@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\LivingResource;
+use App\Http\Resources\RecordResource;
 use App\Models\Area;
 use App\Models\Company;
 use App\Models\Person;
@@ -80,6 +81,24 @@ class LivingController extends Controller
         return LivingResource::collection([]);
     }
 
+    public function getOneLiving($id)
+    {
+        $record = Record::with([
+            'room' => function ($query) {
+                $query->withTrashed();
+            },
+            'category' => function ($query) {
+                $query->withTrashed();
+            },
+            'area' => function ($query) {
+                $query->withTrashed();
+            },
+            'person',
+            'company',
+        ])->findOrFail($id);
+        return new RecordResource($record);
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();
@@ -109,6 +128,26 @@ class LivingController extends Controller
         });
 
         return $this->created();
+    }
+
+    public function update($id, Request $request)
+    {
+        $record = Record::findOrFail($id);
+        $data = $request->all();
+        DB::transaction(function () use ($record, $data) {
+            $record->fill($data);
+            if ($data['type'] === 'person') {
+                $person = Person::findOrFail($data['person']['id']);
+                $person->fill($data['person']);
+                $person->save();
+            } else if ($data['type'] === 'company') {
+                $company = Company::findOrFail($data['company']['id']);
+                $company->fill($data['company']);
+                $company->save();
+            }
+            $record->save();
+        });
+        return $this->updated();
     }
 
     public function quit($id, Request $request)
