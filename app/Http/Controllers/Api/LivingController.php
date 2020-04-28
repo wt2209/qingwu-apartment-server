@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\LivingRequest;
 use App\Http\Resources\LivingResource;
 use App\Http\Resources\RecordResource;
 use App\Models\Area;
@@ -34,8 +35,8 @@ class LivingController extends Controller
             'records',
             'records.person',
             'records.company',
-            'records.category'
-        ]);
+            'records.category',
+        ])->orderBy('id', 'asc');
 
         // 楼号选择
         if ($area && $building && $unit) {
@@ -99,7 +100,7 @@ class LivingController extends Controller
         return new RecordResource($record);
     }
 
-    public function store(Request $request)
+    public function store(LivingRequest $request)
     {
         $data = $request->all();
         DB::transaction(function () use ($data) {
@@ -130,7 +131,7 @@ class LivingController extends Controller
         return $this->created();
     }
 
-    public function update($id, Request $request)
+    public function update($id, LivingRequest $request)
     {
         $record = Record::findOrFail($id);
         $data = $request->all();
