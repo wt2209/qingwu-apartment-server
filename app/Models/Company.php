@@ -23,9 +23,4 @@ class Company extends Model
     {
         return $value === '1000-01-01' ? '' : $value;
     }
-
-    public static function booted()
-    {
-        static::addGlobalScope(new AreasScope);
-    }
 }

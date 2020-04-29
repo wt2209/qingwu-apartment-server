@@ -72,9 +72,4 @@ class Person extends Model
                 return $value;
         }
     }
-
-    public static function booted()
-    {
-        static::addGlobalScope(new AreasScope);
-    }
 }
