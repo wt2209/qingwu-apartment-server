@@ -41,8 +41,8 @@ Route::namespace('Api')
         Route::get('livings/{id}', 'LivingController@getOneLiving')->name('livings.one');
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');
-        Route::put('livings/{id}', 'livingController@update')->name('livings.update');
-        Route::patch('livings/{id}', 'livingController@move')->name('livings.move');
+        Route::put('livings/{id}', 'LivingController@update')->name('livings.update');
+        Route::patch('livings/{id}', 'LivingController@move')->name('livings.move');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。
