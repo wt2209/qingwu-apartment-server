@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\LivingMoveRequest;
 use App\Http\Requests\LivingRequest;
 use App\Http\Resources\LivingResource;
 use App\Http\Resources\RecordResource;
@@ -149,6 +150,38 @@ class LivingController extends Controller
             $record->save();
         });
         return $this->updated();
+    }
+
+    public function move($id, LivingMoveRequest $request)
+    {
+        $oldRecord = Record::findOrFail($id);
+        $data = $oldRecord->toArray();
+        unset($data['status']);
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        $data['electric_start_base'] = $request->electric_start_base;
+        $data['water_start_base'] = $request->water_start_base;
+        $data = array_filter($data);
+
+        $toRoomId = Room::where('area_id', $request->area_id)
+            ->where('title', $request->title)
+            ->value('id');
+
+        $oldRecord->deleted_at = $request->deleted_at;
+        $oldRecord->status = Record::STATUS_MOVED;
+        $oldRecord->electric_end_base = $request->electric_end_base;
+        $oldRecord->water_end_base = $request->water_end_base;
+        $oldRecord->to_room = $toRoomId;
+
+        $data['room_id'] = $toRoomId;
+        $data['record_at'] = $request->deleted_at;
+
+        DB::transaction(function () use ($oldRecord, $data) {
+            $oldRecord->save();
+            Record::create($data);
+        });
+
+        return $this->ok();
     }
 
     public function quit($id, Request $request)
