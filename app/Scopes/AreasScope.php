@@ -2,6 +2,7 @@
 
 namespace App\Scopes;
 
+use App\Models\Area;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -19,6 +20,11 @@ class AreasScope implements Scope
             return;
         }
         $areas = explode(',', $user->areas);
-        $builder->whereIn('area_id', $areas);
+
+        if ($model instanceof Area) {
+            $builder->whereIn('id', $areas);
+        } else {
+            $builder->whereIn('area_id', $areas);
+        }
     }
 }
