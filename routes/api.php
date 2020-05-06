@@ -42,6 +42,7 @@ Route::namespace('Api')
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');
         Route::put('livings/{id}', 'LivingController@update')->name('livings.update');
+        Route::patch('livings/renew/{id}', 'LivingController@renew')->name('livings.renew');
         Route::patch('livings/{id}', 'LivingController@move')->name('livings.move');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
 

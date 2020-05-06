@@ -10,6 +10,7 @@ use App\Models\Area;
 use App\Models\Company;
 use App\Models\Person;
 use App\Models\Record;
+use App\Models\Renew;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -193,5 +194,24 @@ class LivingController extends Controller
         $record->status = Record::STATUS_QUITTED;
         $record->save();
         return $this->deleted();
+    }
+
+    public function renew($id, Request $request)
+    {
+        $record = Record::findOrFail($id);
+        if ($record->status === Record::STATUS_LIVING) {
+            $record->rent_end = $request->new_rent_end;
+            $renew = [
+                'record_id' => $record->id,
+                'old_rent_end' => $record->rent_end,
+                'new_rent_end' => $request->new_rent_end,
+                'renewed_at' => $request->renewed_at,
+            ];
+            DB::transaction(function () use ($record, $renew) {
+                Renew::create($renew);
+                $record->save();
+            });
+        }
+        return $this->ok();
     }
 }
