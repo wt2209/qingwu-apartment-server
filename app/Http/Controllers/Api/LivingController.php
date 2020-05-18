@@ -6,6 +6,7 @@ use App\Http\Requests\LivingMoveRequest;
 use App\Http\Requests\LivingRequest;
 use App\Http\Resources\LivingResource;
 use App\Http\Resources\RecordResource;
+use App\Http\Resources\RenewResource;
 use App\Models\Area;
 use App\Models\Company;
 use App\Models\Person;
@@ -126,6 +127,12 @@ class LivingController extends Controller
         return RecordResource::collection($list);
     }
 
+    public function getRenewList($recordId)
+    {
+        $list = Renew::where('record_id', $recordId)->get();
+        return RenewResource::collection($list);
+    }
+
     public function store(LivingRequest $request)
     {
         $data = $request->all();
@@ -224,13 +231,13 @@ class LivingController extends Controller
     {
         $record = Record::findOrFail($id);
         if ($record->status === Record::STATUS_LIVING) {
-            $record->rent_end = $request->new_rent_end;
             $renew = [
                 'record_id' => $record->id,
                 'old_rent_end' => $record->rent_end,
                 'new_rent_end' => $request->new_rent_end,
                 'renewed_at' => $request->renewed_at,
             ];
+            $record->rent_end = $request->new_rent_end;
             DB::transaction(function () use ($record, $renew) {
                 Renew::create($renew);
                 $record->save();

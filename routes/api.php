@@ -39,6 +39,7 @@ Route::namespace('Api')
         Route::get('one-person', 'PersonController@getOnePerson')->name('one-person');
 
         Route::get('livings/moves/{personId}', 'LivingController@getMoveList')->name('livings.moveList');
+        Route::get('livings/renews/{recordId}', 'LivingController@getRenewList')->name('livings.renewList');
         Route::get('livings/{id}', 'LivingController@getOneLiving')->name('livings.one');
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');
@@ -86,4 +87,6 @@ Route::namespace('Api')
         Route::get('records', 'RecordController@index')->name('records.index');
 
         Route::get('companies', 'CompanyController@index')->name('company.index');
+
+        Route::get('renews', 'RenewController@index')->name('renews.index');
     });
