@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Scopes\AreasScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Record extends Model
 {
@@ -62,6 +63,24 @@ class Record extends Model
     public function getRentEndAttribute($value)
     {
         return $value === '1000-01-01' ? '' : $value;
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return substr($value, 0, 10);
+    }
+
+    public function getProofFilesAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k]['url'] = url(Storage::url($v['path']));
+            }
+        }
+        return $value;
     }
 
     public static function booted()

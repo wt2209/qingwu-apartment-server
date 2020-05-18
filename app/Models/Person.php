@@ -9,13 +9,18 @@ class Person extends Model
 {
     protected $fillable = [
         'name', 'area_id', 'gender', 'education', 'serial', 'identify',
-        'phone', 'department', 'hired_at', 'entered_at', 'contract_start',
+        'phone', 'department', 'hired_at', 'contract_start',
         'contract_end', 'emergency_person', 'emergency_phone', 'origin', 'remark',
     ];
 
     public function records()
     {
         return $this->hasMany(Record::class);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return substr($value, 0, 10);
     }
 
     public function setHiredAtAttribute($value)

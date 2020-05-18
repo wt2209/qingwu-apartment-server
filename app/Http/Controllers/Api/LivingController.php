@@ -102,6 +102,30 @@ class LivingController extends Controller
         return new RecordResource($record);
     }
 
+    public function getMoveList($personId)
+    {
+        $list = Record::with([
+            'room' => function ($query) {
+                $query->withTrashed();
+            },
+            'toRoom' => function ($query) {
+                $query->withTrashed();
+            },
+            'category' => function ($query) {
+                $query->withTrashed();
+            },
+            'area' => function ($query) {
+                $query->withTrashed();
+            },
+            'person'
+        ])
+            ->withTrashed()
+            ->where('person_id', $personId)
+            ->where('status', Record::STATUS_MOVED)
+            ->get();
+        return RecordResource::collection($list);
+    }
+
     public function store(LivingRequest $request)
     {
         $data = $request->all();

@@ -40,9 +40,9 @@ class LivingRequest extends FormRequest
             'record_at' => 'required|date',
             'rent_start' => 'date',
             'rent_end' => 'date',
-            'proof_files' => 'sometimes|required|array',
+            'proof_files' => 'sometimes|array',
             'proof_files.*.name' => 'required_with:proof_files',
-            'proof_files.*.url' => 'required_with:proof_files',
+            'proof_files.*.path' => 'required_with:proof_files',
             'proof_files.*.size' => 'required_with:proof_files',
             'proof_files.*.uid' => 'required_with:proof_files',
         ];
@@ -89,13 +89,10 @@ class LivingRequest extends FormRequest
             ],
             'rent_start.date' => '租期开始日必须是一个日期格式',
             'rent_end.date' => '租期结束日必须是一个日期格式',
-            'proof_files' => [
-                'required' => '入住凭证格式错误',
-                'array' => '入住凭证格式错误',
-            ],
+            'proof_files.array' => '入住凭证格式错误',
             'proof_files.*.name.required_with' => '文件name不能为空',
             'proof_files.*.size.required_with' => '文件size不能为空',
-            'proof_files.*.url.required_with' => '文件url不能为空',
+            'proof_files.*.path.required_with' => '文件path不能为空',
             'proof_files.*.uid.required_with' => '文件uid不能为空',
         ];
     }
