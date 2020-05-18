@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\CompanyRenameRequest;
 use App\Http\Requests\LivingMoveRequest;
 use App\Http\Requests\LivingRequest;
+use App\Http\Resources\CompanyRenameResource;
 use App\Http\Resources\LivingResource;
 use App\Http\Resources\RecordResource;
 use App\Http\Resources\RenewResource;
 use App\Models\Area;
 use App\Models\Company;
+use App\Models\CompanyRename;
 use App\Models\Person;
 use App\Models\Record;
 use App\Models\Renew;
@@ -127,6 +130,12 @@ class LivingController extends Controller
         return RecordResource::collection($list);
     }
 
+    public function getRenameList($companyId)
+    {
+        $list = CompanyRename::where('company_id', $companyId)->get();
+        return CompanyRenameResource::collection($list);
+    }
+
     public function getRenewList($recordId)
     {
         $list = Renew::where('record_id', $recordId)->get();
@@ -243,6 +252,23 @@ class LivingController extends Controller
                 $record->save();
             });
         }
+        return $this->ok();
+    }
+
+    public function rename($companyId, CompanyRenameRequest $request)
+    {
+        $company = Company::findOrFail($companyId);
+        $rename = [
+            'company_id' => $company->id,
+            'new_company_name' => $request->new_company_name,
+            'old_company_name' => $company->company_name,
+            'renamed_at' => $request->renamed_at,
+        ];
+        $company->company_name = $request->new_company_name;
+        DB::transaction(function () use ($rename, $company) {
+            CompanyRename::create($rename);
+            $company->save();
+        });
         return $this->ok();
     }
 }

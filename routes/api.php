@@ -39,11 +39,13 @@ Route::namespace('Api')
         Route::get('one-person', 'PersonController@getOnePerson')->name('one-person');
 
         Route::get('livings/moves/{personId}', 'LivingController@getMoveList')->name('livings.moveList');
+        Route::get('livings/renames/{companyId}', 'LivingController@getRenameList')->name('livings.renameList');
         Route::get('livings/renews/{recordId}', 'LivingController@getRenewList')->name('livings.renewList');
         Route::get('livings/{id}', 'LivingController@getOneLiving')->name('livings.one');
         Route::get('livings', 'LivingController@index')->name('livings.index');
         Route::post('livings', 'LivingController@store')->name('livings.store');
         Route::put('livings/{id}', 'LivingController@update')->name('livings.update');
+        Route::patch('livings/rename/{companyId}', 'LivingController@rename')->name('livings.rename');
         Route::patch('livings/renew/{id}', 'LivingController@renew')->name('livings.renew');
         Route::patch('livings/{id}', 'LivingController@move')->name('livings.move');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
@@ -89,4 +91,6 @@ Route::namespace('Api')
         Route::get('companies', 'CompanyController@index')->name('company.index');
 
         Route::get('renews', 'RenewController@index')->name('renews.index');
+
+        Route::get('renames', 'CompanyRenameController@index')->name('renames.index');
     });
