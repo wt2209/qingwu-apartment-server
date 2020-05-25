@@ -15,7 +15,6 @@ class ChargeRule extends Model
 
     const TYPE_PERSON = Category::TYPE_PERSON;
     const TYPE_COMPANY = Category::TYPE_COMPANY;
-    const TYPE_FUNCTIONAL = Category::TYPE_FUNCTIONAL;
     const TYPE_OTHER = 'other'; // 其他收费，如超市费用等
 
     const WAY_BEFORE = 'before'; // 预交费
@@ -32,7 +31,7 @@ class ChargeRule extends Model
         self::WAY_AFTER,
     ];
 
-    protected $fillable = ['title', 'rule', 'period'];
+    protected $fillable = ['title', 'type', 'rule', 'period', 'way', 'period', 'remark'];
 
     protected $casts = [
         'rule' => 'array',

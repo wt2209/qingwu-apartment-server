@@ -50,6 +50,8 @@ Route::namespace('Api')
         Route::patch('livings/{id}', 'LivingController@move')->name('livings.move');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
 
+        Route::get('bills', 'BillController@index')->name('bills.index');
+
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。
         Route::get('rooms', 'RoomController@index')->name('rooms.index');
         Route::post('rooms', 'RoomController@store')->name('rooms.store');
