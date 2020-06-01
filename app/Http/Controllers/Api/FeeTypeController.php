@@ -20,6 +20,7 @@ class FeeTypeController extends Controller
         $title = $request->query('title', '');
         $turnIn = $request->query('turn_in', null);
         $status =  $request->query('status', FeeType::STATUS_ALL);
+        $export = $request->query('export', 0);
 
         $qb = FeeType::query();
         if ($title) {
@@ -35,6 +36,9 @@ class FeeTypeController extends Controller
             case FeeType::STATUS_ALL:
                 $qb->withTrashed();
                 break;
+        }
+        if ($export) {
+            return FeeTypeResource::collection($qb->get());
         }
         return FeeTypeResource::collection($qb->paginate($perPage));
     }

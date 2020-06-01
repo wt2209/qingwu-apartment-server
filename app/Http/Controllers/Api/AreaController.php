@@ -18,6 +18,7 @@ class AreaController extends Controller
     {
         $perPage = $request->query('per_page', config('app.per_page', 20));
         $status =  $request->query('status', Area::STATUS_ALL);
+        $export = $request->query('export', 0);
 
         $qb = Area::query();
         switch ($status) {
@@ -27,6 +28,9 @@ class AreaController extends Controller
             case Area::STATUS_ALL:
                 $qb->withTrashed();
                 break;
+        }
+        if ($export) {
+            return AreaResource::collection($qb->get());
         }
         return AreaResource::collection($qb->paginate($perPage));
     }

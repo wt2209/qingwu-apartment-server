@@ -46,6 +46,7 @@ class RoomController extends Controller
         $building = $request->query('building', '');
         $unit =  $request->query('unit', '');
         $status =  $request->query('status', Room::STATUS_ALL);
+        $export = $request->query('export', 0);
 
         $qb = Room::with([
             'category' => function ($query) {
@@ -87,6 +88,10 @@ class RoomController extends Controller
             case Room::STATUS_ALL:
                 $qb->withTrashed();
                 break;
+        }
+
+        if ($export) {
+            return RoomResource::collection($qb->get());
         }
         return RoomResource::collection($qb->paginate($perPage));
     }

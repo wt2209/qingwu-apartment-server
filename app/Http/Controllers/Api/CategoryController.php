@@ -43,6 +43,7 @@ class CategoryController extends Controller
         $title = $request->query('title', '');
         $type = $request->query('type', '');
         $status =  $request->query('status', Category::STATUS_ALL);
+        $export = $request->query('export', 0);
 
         $queryBuilder = Category::query();
         if ($title) {
@@ -58,6 +59,9 @@ class CategoryController extends Controller
             case Category::STATUS_ALL:
                 $queryBuilder->withTrashed();
                 break;
+        }
+        if ($export) {
+            return CategoryResource::collection($queryBuilder->get());
         }
         return CategoryResource::collection($queryBuilder->paginate($perPage));
     }

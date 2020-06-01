@@ -30,9 +30,13 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $pageSize = $request->query('pageSize', config('app.pageSiez', 20));
+        $export = $request->query('export', 0);
+
         $qb = Company::query();
         $qb->withCount('records');
-
+        if ($export) {
+            return CompanyResource::collection($qb->get());
+        }
         return CompanyResource::collection($qb->paginate($pageSize));
     }
 }

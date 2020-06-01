@@ -16,6 +16,7 @@ class RenewController extends Controller
         $room = $request->query('record-room-title', '');
         $name = $request->query('record-person-name', '');
         $companyName = $request->query('record-company-company_name', '');
+        $export = $request->query('export', 0);
 
         $qb = Renew::with([
             'record' => function ($query) {
@@ -46,6 +47,10 @@ class RenewController extends Controller
             $qb->whereHas('record.room', function ($query) use ($room) {
                 $query->where('title', 'like', "{$room}%");
             });
+        }
+
+        if ($export) {
+            return RenewResource::collection($qb->get());
         }
         return RenewResource::collection($qb->paginate($pageSize));
     }

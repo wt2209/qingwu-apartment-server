@@ -13,6 +13,7 @@ class CompanyRenameController extends Controller
     {
         $pageSize = $request->query('pageSize', config('app.pageSiez', 20));
         $companyName = $request->query('company_name', '');
+        $export = $request->query('export', 0);
 
         $qb = CompanyRename::with(['company']);
         if ($companyName) {
@@ -22,6 +23,9 @@ class CompanyRenameController extends Controller
                 ->orWhere('new_company_name', 'like', "%{$companyName}%");
         }
 
+        if ($export) {
+            return CompanyRenameResource::collection($qb->get());
+        }
         return CompanyRenameResource::collection($qb->paginate($pageSize));
     }
 }
