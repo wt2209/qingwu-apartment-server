@@ -50,6 +50,7 @@ Route::namespace('Api')
         Route::patch('livings/{id}', 'LivingController@move')->name('livings.move');
         Route::delete('livings/{id}', 'LivingController@quit')->name('livings.quit');
 
+        Route::post('bills/generate', 'BillController@generate')->name('bills.generate');
         Route::get('bills', 'BillController@index')->name('bills.index');
 
         Route::get('statistics/living', 'StatisticController@living')->name('statistics/living');

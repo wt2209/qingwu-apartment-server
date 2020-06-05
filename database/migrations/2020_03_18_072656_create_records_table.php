@@ -23,6 +23,7 @@ class CreateRecordsTable extends Migration
             $table->unsignedBigInteger('company_id')->default(0);
             $table->string('functional_title')->default('')->comment('功能性用房的标题');
             $table->unsignedBigInteger('charge_rule_id')->default(0);
+            $table->date('charged_to')->nullable()->comment('已缴费至');
             $table->date('record_at')->default('1000-01-01')->comment('记录时间（入住时间）');
             $table->date('rent_start')->default('1000-01-01')->comment('入住期限开始日期');
             $table->date('rent_end')->default('1000-01-01')->comment('入住期限结束日期');

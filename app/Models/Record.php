@@ -16,7 +16,7 @@ class Record extends Model
     const STATUS_MOVED = 'moved';
 
     protected $fillable = [
-        'type', 'area_id', 'category_id', 'room_id', 'person_id', 'charge_rule_id',
+        'type', 'area_id', 'category_id', 'room_id', 'person_id', 'charge_rule_id', 'charged_to',
         'company_id', 'record_at', 'rent_start', 'rent_end', 'proof_files', 'functional_title',
         'electric_start_base', 'water_start_base', 'electric_end_base', 'water_end_base',
     ];
@@ -48,6 +48,11 @@ class Record extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function chargeRule()
+    {
+        return $this->belongsTo(ChargeRule::class);
     }
 
     public function toRoom()

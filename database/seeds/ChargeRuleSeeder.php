@@ -20,7 +20,7 @@ class ChargeRuleSeeder extends Seeder
                 'rule' => [
                     [
                         'title' => '租赁房租',
-                        'fee' => '600, 700, 800, 900',
+                        'fee' => [600, 700, 800, 900],
                         'turn_in' => true,
                         'rate' => 0.3,
                     ],

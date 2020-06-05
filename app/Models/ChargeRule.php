@@ -37,6 +37,10 @@ class ChargeRule extends Model
         'rule' => 'array',
     ];
 
+    protected $dates = [
+        'charged_to'
+    ];
+
     public function setRuleAttribute($value)
     {
         foreach ($value as $k => $v) {
