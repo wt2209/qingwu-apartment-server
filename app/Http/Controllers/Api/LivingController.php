@@ -16,6 +16,7 @@ use App\Models\Person;
 use App\Models\Record;
 use App\Models\Renew;
 use App\Models\Room;
+use App\Services\LivingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,69 +24,27 @@ class LivingController extends Controller
 {
     public function index(Request $request)
     {
-        $pageSize = config('app.pageSize', 20);
         $area = $request->query('area', '');
         $building = $request->query('building', '');
         $unit = $request->query('unit', '');
 
+        // 搜索
         $keyword = $request->query('keyword', '');
         $areaId = $request->query('area_id', 0);
+        $categoryId = $request->query('category_id', 0);
 
-        $qb = Room::with([
-            'area' => function ($query) {
-                $query->withTrashed();
-            },
-            'category' => function ($query) {
-                $query->withTrashed();
-            },
-            'records',
-            'records.person',
-            'records.company',
-            'records.category',
-        ])->orderBy('id', 'asc');
+        $service = new LivingService;
 
         // 楼号选择
         if ($area && $building && $unit) {
-            $areaId = Area::where('title', $area)->value('id');
-            $rooms = $qb->where('area_id', $areaId)
-                ->where('building', $building)
-                ->where('unit', $unit)
-                ->paginate($pageSize);
-            return LivingResource::collection($rooms);
+            $rooms = $service->getRoomsBySelect($area, $building, $unit);
         }
 
         // 搜索
-        if ($keyword) {
-            if ($areaId) {
-                $qb->where('area_id', $areaId);
-            }
-            if (strpos($keyword, '-') !== false) { // is building
-                $keyword = str_replace(['g', 'h'], ['高', '红'], $keyword);
-                $rooms = $qb->where('title', 'like', "{$keyword}%")
-                    ->paginate($pageSize);
-            } elseif (is_numeric($keyword)) { // is phone
-                $rooms = $qb
-                    ->whereHas('records.person', function ($query) use ($keyword) {
-                        $query->where('phone', 'like', "%{$keyword}%");
-                    })
-                    ->orWhereHas('records.company', function ($query) use ($keyword) {
-                        $query->where('manager_phone', 'like', "%{$keyword}%")
-                            ->orWhere('linkman_phone', 'like', "%{$keyword}%");
-                    })
-                    ->get();
-            } else { // is name or company 
-                $rooms = $qb
-                    ->whereHas('records.person', function ($query) use ($keyword) {
-                        $query->where('name', 'like', "%{$keyword}%");
-                    })
-                    ->orWhereHas('records.company', function ($query) use ($keyword) {
-                        $query->where('company_name', 'like', "%{$keyword}%");
-                    })
-                    ->get();
-            }
-            return LivingResource::collection($rooms);
+        if ($keyword || $areaId || $categoryId) {
+            $rooms = $service->getRoomsBySearch($keyword, $areaId, $categoryId);
         }
-        return LivingResource::collection([]);
+        return LivingResource::collection($rooms ?? []);
     }
 
     public function getOneLiving($id)
