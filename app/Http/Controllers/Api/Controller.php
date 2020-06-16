@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller as BaseController;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * @OA\Info(
@@ -38,6 +42,11 @@ class Controller extends BaseController
     protected function ok($message = '操作成功')
     {
         return $this->responseJson($message, 200);
+    }
+
+    protected function error($message = '内部错误')
+    {
+        return $this->responseJson($message, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     protected function responseJson($message, $code)

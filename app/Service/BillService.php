@@ -32,6 +32,7 @@ class BillService
             // 按租期开始日计算的整年的时间
             $lastEnd = self::getEndDate($recordAt, $yearNumber * 12);
             if (strtotime($lastEnd) > strtotime($startDate)) { // 第一次大于$startDate 时，停止循环
+                // 计算开始日期和结束日期是否跨一整年
                 if (strtotime($lastEnd) < strtotime($endDate)) {
                     $crossYear = true;
                 }
@@ -73,10 +74,12 @@ class BillService
                 'turn_in' => $rule['turn_in'],
                 'money' => $money,
                 'description' => "{$startDate} — {$endDate}",
+                'late_base' => $nextRent ?? $rent,
                 'late_date' => $endDate,
                 'late_rate' => $rule['rate'],
-                'should_charge_at' => date('Y-m-d', strtotime('first day of this month', strtotime($endDate))),
+                'should_charge_at' => date('Y-m-d', strtotime('-1 day', strtotime($endDate))),
                 'is_refund' => false,
+                'auto_generate' => true,
             ];
         }
         return $bills;

@@ -24,11 +24,13 @@ class CreateBillsTable extends Migration
             $table->boolean('turn_in')->default(true);
             $table->decimal('money', 10, 2);
             $table->string('description')->nullable()->comment('费用说明');
+            $table->decimal('late_base', 10, 2)->nullable()->comment('滞纳金基数');
             $table->decimal('late_rate', 4, 2)->nullable()->comment('滞纳金费率');
             $table->date('late_date')->nullable()->comment('滞纳金开始计算日期');
-            $table->date('should_charge_at')->comment('应缴费月份:2020-4-1');
+            $table->date('should_charge_at')->comment('最晚应缴费日期');
             $table->date('charged_at')->nullable()->comment('交费时间');
             $table->boolean('is_refund')->default(false)->comment('是否是退费');
+            $table->boolean('auto_generate')->default(false)->comment('标识是否是自动生成的费用');
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ class Bill extends Model
 
     protected $fillable = [
         'area_id', 'type', 'way', 'location', 'name', 'title',
-        'turn_in', 'money', 'description', 'late_rate',
-        'late_date', 'charged_at', 'is_refund'
+        'turn_in', 'money', 'description', 'late_rate', 'late_date',
+        'charged_at', 'is_refund', 'should_charge_at', 'auto_generate',
     ];
 
     protected $casts = [
