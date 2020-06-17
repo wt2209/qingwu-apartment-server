@@ -37,6 +37,8 @@ class BillControllerTest extends TestCase
 
         $res = $this->withJwt()->postJson('/api/bills/generate', [
             'date' => '2020-12-30',
+            'export' => '1',
+            'save' => '1',
         ]);
 
         $res->assertStatus(200);

@@ -30,7 +30,7 @@ class BillGenerateRequest extends FormRequest
         ];
     }
 
-    protected function messages()
+    public function messages()
     {
         return [
             'date.required' => '日期必须填写',

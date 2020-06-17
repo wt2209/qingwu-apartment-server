@@ -52,6 +52,7 @@ Route::namespace('Api')
 
         Route::post('bills/generate', 'BillController@generate')->name('bills.generate');
         Route::get('bills', 'BillController@index')->name('bills.index');
+        Route::delete('bills', 'BillController@remove')->name('bills.remove');
 
         Route::get('statistics/living', 'StatisticController@living')->name('statistics/living');
 

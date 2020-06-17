@@ -73,7 +73,7 @@ class BillService
                 'title' => $rule['title'],
                 'turn_in' => $rule['turn_in'],
                 'money' => $money,
-                'description' => "{$startDate} — {$endDate}",
+                'description' => "{$startDate}—{$endDate}",
                 'late_base' => $nextRent ?? $rent,
                 'late_date' => $endDate,
                 'late_rate' => $rule['rate'],

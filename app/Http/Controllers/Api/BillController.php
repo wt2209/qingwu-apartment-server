@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BillGenerateRequest;
+use App\Http\Requests\BillRemoveRequest;
 use App\Http\Resources\BillResource;
 use App\Models\Bill;
 use App\Models\Record;
@@ -27,6 +28,7 @@ class BillController extends Controller
         $isRefund = $request->query('is_refund', null);
         $status = $request->query('status', null);
         $pageSize = $request->query('pageSize', 20);
+        $export = $request->query('export', false);
 
         $qb = Bill::with(['area']);
 
@@ -61,9 +63,10 @@ class BillController extends Controller
                 $qb->whereNull('charged_at');
             }
         }
-
-        $bills = $qb->paginate($pageSize);
-        return BillResource::collection($bills);
+        if ($export) {
+            return BillResource::collection($qb->get());
+        }
+        return BillResource::collection($qb->paginate($pageSize));
     }
 
     public function generate(BillGenerateRequest $request)
@@ -87,7 +90,7 @@ class BillController extends Controller
         // 当前时间，用于返回数据时查询使用
         $now = date('Y-m-d H:i:s');
         // 开始生成并存储费用
-        DB::transaction(function () use ($records, $save, $now) {
+        $bills = DB::transaction(function () use ($records, $save, $now) {
             $billChunks = array_map(function ($record) {
                 // 本次应交费用的开始时间
                 $startDate = date('Y-m-d', strtotime('+1 day', strtotime($record['charged_to']))); //string
@@ -118,15 +121,19 @@ class BillController extends Controller
             if ($save) {
                 DB::table('bills')->insert($bills);
             }
+            return $bills;
         });
 
         if ($export) {
-            $bills = Bill::with(['area'])
-                ->where('auto_generate', true)
-                ->where('created_at', $now)
-                ->get();
             return response()->json(['data' => BillResource::collection($bills)]);
         }
         return $this->ok();
+    }
+
+    public function remove(BillRemoveRequest $request)
+    {
+        $ids = $request->input('ids', null);
+        Bill::whereIn('id', $ids)->delete();
+        return $this->deleted();
     }
 }
