@@ -9,9 +9,9 @@ class LivingService
 {
     /**
      * 分页数
-     * 一层17间房，每次支持4层
+     * 一层17间房，每次支持3层
      */
-    protected $pageSize = 4 * 17;
+    protected $pageSize = 3 * 17;
 
     public function getBaseQueryBuilder()
     {

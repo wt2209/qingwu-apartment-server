@@ -20,7 +20,7 @@ class ChargeRuleSeeder extends Seeder
                 'rule' => [
                     [
                         'title' => '租赁房租',
-                        'fee' => [600, 700, 800, 900],
+                        'fee' => [600, 700, 800, 1100, 1100, 1100, 1500],
                         'turn_in' => true,
                         'rate' => 0.3,
                     ],
@@ -31,7 +31,7 @@ class ChargeRuleSeeder extends Seeder
                         'rate' => 0,
                     ],
                 ],
-                'period' => 3,
+                'period' => 1,
             ],
             [
                 'title' => '租赁高层',
@@ -40,7 +40,7 @@ class ChargeRuleSeeder extends Seeder
                 'rule' => [
                     [
                         'title' => '租赁房租',
-                        'fee' => [700, 800, 900, 1000],
+                        'fee' => [700, 800, 900, 1200, 1200, 1200, 1600],
                         'turn_in' => true,
                         'rate' => 0.3,
                     ],
@@ -57,21 +57,35 @@ class ChargeRuleSeeder extends Seeder
                         'rate' => 0,
                     ],
                 ],
-                'period' => 3,
+                'period' => 1,
             ],
             [
-                'title' => '单身职工',
+                'title' => 'A区单身职工',
                 'type' => ChargeRule::TYPE_PERSON,
                 'way' => ChargeRule::WAY_BEFORE,
                 'rule' => [
                     [
-                        'title' => '单身床位费',
-                        'fee' => [100],
+                        'title' => '单身职工床位费',
+                        'fee' => [210],
                         'turn_in' => true,
                         'rate' => 0
                     ]
                 ],
-                'period' => 6,
+                'period' => 1,
+            ],
+            [
+                'title' => 'B区单身职工',
+                'type' => ChargeRule::TYPE_PERSON,
+                'way' => ChargeRule::WAY_BEFORE,
+                'rule' => [
+                    [
+                        'title' => '单身职工床位费',
+                        'fee' => [180],
+                        'turn_in' => true,
+                        'rate' => 0
+                    ]
+                ],
+                'period' => 1,
             ],
             [
                 'title' => '协力公寓6人间',
@@ -84,7 +98,8 @@ class ChargeRuleSeeder extends Seeder
                         'turn_in' => true,
                         'rate' => 0
                     ]
-                ]
+                ],
+                'period' => 1,
             ],
             [
                 'title' => '协力公寓8人间',
@@ -97,7 +112,8 @@ class ChargeRuleSeeder extends Seeder
                         'turn_in' => true,
                         'rate' => 0
                     ]
-                ]
+                ],
+                'period' => 1,
             ],
             [
                 'title' => '协力公寓12人间',
@@ -110,7 +126,8 @@ class ChargeRuleSeeder extends Seeder
                         'turn_in' => true,
                         'rate' => 0
                     ]
-                ]
+                ],
+                'period' => 1,
             ],
             [
                 'title' => '青武公寓6人间',
@@ -123,7 +140,8 @@ class ChargeRuleSeeder extends Seeder
                         'turn_in' => true,
                         'rate' => 0
                     ]
-                ]
+                ],
+                'period' => 1,
             ],
             [
                 'title' => '青武公寓10人间',
@@ -133,19 +151,6 @@ class ChargeRuleSeeder extends Seeder
                     [
                         'title' => '服务费',
                         'fee' => [910],
-                        'turn_in' => true,
-                        'rate' => 0
-                    ]
-                ]
-            ],
-            [
-                'title' => '超市物业费',
-                'type' => ChargeRule::TYPE_OTHER,
-                'way' => ChargeRule::WAY_AFTER,
-                'rule' => [
-                    [
-                        'title' => '超市物业费',
-                        'fee' => [766],
                         'turn_in' => true,
                         'rate' => 0
                     ]

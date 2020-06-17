@@ -22,12 +22,17 @@ class CategorySeeder extends Seeder
             'utility_type' => '全额收取',
         ],
         [
-            'title' => '派遣工',
+            'title' => '租赁户',
             'type' => Category::TYPE_PERSON,
-            'utility_type' => '收取超费',
+            'utility_type' => '全额收取',
         ],
         [
             'title' => '包商公司',
+            'type' => Category::TYPE_COMPANY,
+            'utility_type' => '全额收取',
+        ],
+        [
+            'title' => '青武包商公司',
             'type' => Category::TYPE_COMPANY,
             'utility_type' => '全额收取',
         ],
@@ -37,7 +42,7 @@ class CategorySeeder extends Seeder
             'utility_type' => '全额收取',
         ],
         [
-            'title' => '仓库',
+            'title' => '功能用房',
             'type' => Category::TYPE_FUNCTIONAL,
             'utility_type' => '无',
         ],

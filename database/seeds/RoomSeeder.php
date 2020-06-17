@@ -38,18 +38,29 @@ class RoomSeeder extends Seeder
         foreach ($duo as $building => $units) {
             foreach ($units as $unit) {
                 for ($i = 1; $i <= 6; $i++) {
+                    if (in_array($building, ['红2', '红3', '7', '9', '11'])) {
+                        $categoryId = 2;
+                        $chargeRuleId = 3;
+                    } else {
+                        $categoryId = 4;
+                        $chargeRuleId = 1;
+                    }
                     $number = $i === 6 ? 6 : 4;
                     $data[] = [
                         'title' => $building  . '-' . $unit  . '-' . $i . '01',
                         'building' => $building . '#',
                         'unit' => $unit . '单元',
                         'number' => $number,
+                        'category_id' => $categoryId,
+                        'charge_rule_id' => $chargeRuleId,
                     ];
                     $data[] = [
                         'title' => $building  . '-' . $unit  . '-' . $i . '02',
                         'building' => $building . '#',
                         'unit' => $unit . '单元',
                         'number' => $number,
+                        'category_id' => $categoryId,
+                        'charge_rule_id' => $chargeRuleId,
                     ];
                 }
             }
@@ -80,35 +91,49 @@ class RoomSeeder extends Seeder
                     }
                 }
                 $number = $building === '高2' ? 4 : 1;
+                if ($building === '高2') {
+                    $categoryId = 2;
+                    $chargeRuleId = 3;
+                } else {
+                    $categoryId = 4;
+                    $chargeRuleId = 1;
+                }
                 $data[] = [
                     'title' => $building . '-' . $i . '01',
                     'building' => $building,
                     'unit' => $unit,
                     'number' => $number,
+                    'category_id' => $categoryId,
+                    'charge_rule_id' => $chargeRuleId,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '02',
                     'building' => $building,
                     'unit' => $unit,
                     'number' => $number,
+                    'category_id' => $categoryId,
+                    'charge_rule_id' => $chargeRuleId,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '03',
                     'building' => $building,
                     'unit' => $unit,
                     'number' => $number,
+                    'category_id' => $categoryId,
+                    'charge_rule_id' => $chargeRuleId,
                 ];
                 $data[] = [
                     'title' => $building . '-' . $i . '04',
                     'building' => $building,
                     'unit' => $unit,
                     'number' => $number,
+                    'category_id' => $categoryId,
+                    'charge_rule_id' => $chargeRuleId,
                 ];
             }
         }
         foreach ($data as $k => $d) {
             $data[$k]['area_id'] = 1;
-            $data[$k]['category_id'] = rand(1, 7);
         }
         DB::table('rooms')->insert($data);
     }
@@ -118,14 +143,28 @@ class RoomSeeder extends Seeder
         $data = [];
         for ($building = 1; $building <= 4; $building++) {
             for ($floor = 1; $floor <= 17; $floor++) {
+                if ($floor >= 1 && $floor <= 3) {
+                    $unit = '1-3层';
+                } else if ($floor >= 4 && $floor <= 6) {
+                    $unit = '4-6层';
+                } else if ($floor >= 7 && $floor <= 9) {
+                    $unit = '7-9层';
+                } else if ($floor >= 10 && $floor <= 12) {
+                    $unit = '10-12层';
+                } else if ($floor >= 13 && $floor <= 15) {
+                    $unit = '13-15层';
+                } else {
+                    $unit = '16-17层';
+                }
                 for ($number = 1; $number <= 17; $number++) {
                     $data[] = [
                         'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
                         'building' => $building . '#',
-                        'unit' => $floor . '层',
+                        'unit' => $unit,
                         'number' => 8,
                         'area_id' => 2,
                         'category_id' => 5,
+                        'charge_rule_id' => 6,
                     ];
                 }
             }
@@ -137,15 +176,38 @@ class RoomSeeder extends Seeder
     {
         $data = [];
         for ($building = 1; $building <= 5; $building++) {
+            if ($building === 2 || $building === 5) {
+                $categoryId = 2;
+                $chargeRuleId = 4;
+                $number = 3;
+            } else {
+                $categoryId = 5;
+                $chargeRuleId = 9;
+                $number = 6;
+            }
             for ($floor = 1; $floor <= 17; $floor++) {
-                for ($number = 1; $number <= 17; $number++) {
+                if ($floor >= 1 && $floor <= 3) {
+                    $unit = '1-3层';
+                } else if ($floor >= 4 && $floor <= 6) {
+                    $unit = '4-6层';
+                } else if ($floor >= 7 && $floor <= 9) {
+                    $unit = '7-9层';
+                } else if ($floor >= 10 && $floor <= 12) {
+                    $unit = '10-12层';
+                } else if ($floor >= 13 && $floor <= 15) {
+                    $unit = '13-15层';
+                } else {
+                    $unit = '16-17层';
+                }
+                for ($n = 1; $n <= 17; $n++) {
                     $data[] = [
-                        'title' => $building . '-' . $floor . str_pad($number, 2, '0', STR_PAD_LEFT),
+                        'title' => $building . '-' . $floor . str_pad($n, 2, '0', STR_PAD_LEFT),
                         'building' => $building . '#',
-                        'unit' => $floor . '层',
-                        'number' => 6,
+                        'unit' => $unit,
+                        'number' => $number,
                         'area_id' => 3,
-                        'category_id' => rand(1, 7),
+                        'category_id' => $categoryId,
+                        'charge_rule_id' => $chargeRuleId,
                     ];
                 }
             }
