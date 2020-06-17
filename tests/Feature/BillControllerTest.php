@@ -17,7 +17,7 @@ class BillControllerTest extends TestCase
 {
     public function test_generate_bills()
     {
-        $category = Category::where('type', 'person')->first();
+        $category = Category::where('title', '单身职工')->first();
         $room = Room::where('area_id', 1)->where('category_id', $category->id)->first();
         $chargeRule = ChargeRule::where('type', 'person')->first();
         $record = [
