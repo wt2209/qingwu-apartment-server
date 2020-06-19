@@ -3,24 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
 {
+    // 使用uuid
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = Uuid::uuid4()->toString();
+        });
+    }
+
     const TYPE_PERSON = ChargeRule::TYPE_PERSON;
     const TYPE_COMPANY = ChargeRule::TYPE_COMPANY;
     const TYPE_OTHER = ChargeRule::TYPE_OTHER;
 
-    const WAY_BEFORE = ChargeRule::WAY_BEFORE;
-    const WAY_AFTER = ChargeRule::WAY_AFTER;
-
     protected $fillable = [
-        'area_id', 'type', 'way', 'location', 'name', 'title',
-        'turn_in', 'money', 'description', 'late_rate', 'late_date',
+        'id', 'area_id', 'type', 'way', 'location', 'name', 'title',
+        'turn_in', 'money', 'description', 'late_rate', 'late_date', 'late_base',
         'charged_at', 'is_refund', 'should_charge_at', 'auto_generate',
     ];
 
     protected $casts = [
         'is_refund' => 'boolean',
+        'auto_generate' => 'boolean',
     ];
 
     public function area()

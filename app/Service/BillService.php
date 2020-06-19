@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Bill;
 use App\Models\Category;
 use App\Models\Record;
+use Ramsey\Uuid\Uuid;
 
 class BillService
 {
@@ -65,8 +66,8 @@ class BillService
                     $name = '';
             }
             $bills[] = [
+                'id' => Uuid::uuid4()->toString(),
                 'area_id' => $record['area_id'],
-                'way' => Bill::WAY_BEFORE,
                 'type' => $record['type'],
                 'location' => $record['room']['title'],
                 'name' => $name,

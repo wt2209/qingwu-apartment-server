@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BillGenerateRequest;
 use App\Http\Requests\BillRemoveRequest;
+use App\Http\Requests\BillRequest;
 use App\Http\Resources\BillResource;
 use App\Models\Bill;
 use App\Models\Record;
 use App\Services\BillService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Component\HttpFoundation\Response;
 
 class BillController extends Controller
 {
@@ -67,6 +64,20 @@ class BillController extends Controller
             return BillResource::collection($qb->get());
         }
         return BillResource::collection($qb->paginate($pageSize));
+    }
+
+    public function store(BillRequest $request)
+    {
+        Bill::create($request->all());
+        return $this->created();
+    }
+
+    public function update($id, BillRequest $request)
+    {
+        $bill = Bill::findOrFail($id);
+        $bill->fill($request->all());
+        $bill->save();
+        return $this->ok();
     }
 
     public function generate(BillGenerateRequest $request)
