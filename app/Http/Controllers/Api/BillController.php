@@ -80,6 +80,20 @@ class BillController extends Controller
         return $this->ok();
     }
 
+    public function charge(Request $request)
+    {
+        $ids = $request->input('ids');
+        $lates = $request->input('lates', null);
+        $chargeDate = $request->input('charge_date');
+        DB::transaction(function () use ($ids, $lates, $chargeDate) {
+            Bill::whereIn('id', $ids)->update(['charged_at' => $chargeDate]);
+            foreach ($lates as $key => $late) {
+                Bill::create(array_merge(['charged_at' => $chargeDate], $late));
+            }
+        });
+        return $this->ok();
+    }
+
     public function generate(BillGenerateRequest $request)
     {
         $date = $request->input('date');

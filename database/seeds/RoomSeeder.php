@@ -45,7 +45,11 @@ class RoomSeeder extends Seeder
                         $categoryId = 4;
                         $chargeRuleId = 1;
                     }
-                    $number = $i === 6 ? 6 : 4;
+                    if (in_array($building, ['1', '2', '3', '4', '5', '6', '8', '10', '12', '14', '红1'])) {
+                        $number = 1;
+                    } else {
+                        $number = $i === 6 ? 6 : 4;
+                    }
                     $data[] = [
                         'title' => $building  . '-' . $unit  . '-' . $i . '01',
                         'building' => $building . '#',
