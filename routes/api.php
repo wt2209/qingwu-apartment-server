@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('auth/login', 'Api\UserController@login')->name('api.auth.login');
 Route::namespace('Api')
     ->name('api.')
-    ->middleware('auth:api')
+    ->middleware(['auth:api', 'operation.record'])
     ->group(function () {
         Route::post('file-upload', 'UploadController@upload')->name('file.upload');
         Route::delete('file-remove', 'UploadController@remove')->name('file.remove');
@@ -102,4 +102,7 @@ Route::namespace('Api')
         Route::get('renews', 'RenewController@index')->name('renews.index');
 
         Route::get('renames', 'CompanyRenameController@index')->name('renames.index');
+
+        // 含有 system 的路由，不保存操作记录
+        Route::get('system/operations', 'OperationController@index')->name('operations.index');
     });
