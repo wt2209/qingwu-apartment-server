@@ -23,9 +23,9 @@ class Bill extends Model
     const TYPE_OTHER = ChargeRule::TYPE_OTHER;
 
     protected $fillable = [
-        'id', 'area_id', 'type', 'way', 'location', 'name', 'title',
+        'id', 'area_id', 'type', 'location', 'name', 'title',
         'turn_in', 'money', 'description', 'late_rate', 'late_date', 'late_base',
-        'charged_at', 'is_refund', 'should_charge_at', 'auto_generate',
+        'charged_at', 'charge_way', 'is_refund', 'should_charge_at', 'auto_generate',
     ];
 
     protected $casts = [

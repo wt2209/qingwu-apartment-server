@@ -58,6 +58,7 @@ Route::namespace('Api')
         Route::delete('bills', 'BillController@remove')->name('bills.remove');
 
         Route::get('statistics/living', 'StatisticController@living')->name('statistics/living');
+        Route::get('statistics/bill', 'StatisticController@bill')->name('statistics/bill');
 
         // 以下是基础结构里面， RESTFUL格式的增删改查，查询列表全部使用分页的方式。
         Route::get('rooms', 'RoomController@index')->name('rooms.index');

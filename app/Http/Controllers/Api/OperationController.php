@@ -21,8 +21,8 @@ class OperationController extends Controller
         $qb = Operation::with('user');
 
         if ($user) {
-            $id = User::where('name', $user)->value('id');
-            $qb->where('user_id', $id);
+            $user = User::where('name', $user)->first();
+            $qb->where('user_id', $user->id);
         }
         if ($ip) {
             $qb->where('ip', $ip);

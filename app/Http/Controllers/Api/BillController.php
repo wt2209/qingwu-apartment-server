@@ -85,9 +85,18 @@ class BillController extends Controller
         $ids = $request->input('ids');
         $lates = $request->input('lates', null);
         $chargeDate = $request->input('charge_date');
-        DB::transaction(function () use ($ids, $lates, $chargeDate) {
-            Bill::whereIn('id', $ids)->update(['charged_at' => $chargeDate]);
-            foreach ($lates as $key => $late) {
+        $way = $request->input('way');
+
+        DB::transaction(function () use ($ids, $lates, $chargeDate, $way) {
+            // 缴费
+            Bill::whereIn('id', $ids)
+                ->whereNull('charged_at')
+                ->update([
+                    'charged_at' => $chargeDate,
+                    'charge_way' => $way,
+                ]);
+            // 存入滞纳金
+            foreach ($lates as $late) {
                 Bill::create(array_merge(['charged_at' => $chargeDate], $late));
             }
         });

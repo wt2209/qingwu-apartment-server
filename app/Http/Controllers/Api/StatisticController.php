@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Bill;
 use App\Models\Category;
 use App\Models\Record;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
 {
@@ -81,5 +83,46 @@ class StatisticController extends Controller
         });
 
         return response()->json(['data' => $result]);
+    }
+
+    public function bill(Request $request)
+    {
+        $start = $request->query('start', null);
+        $end = $request->query('start', null);
+        $areas = $request->query('areas', null);
+        $feeTypes = $request->query('fee_types', null);
+        $location = $request->query('location', null);
+        $name = $request->query('name', null);
+        $turnIn = $request->query('turn_in', 'all');
+        $isRefund = $request->query('is_refund', 0);
+
+        $qb = Bill::select(['title', DB::raw('sum(money) as money')])
+            ->whereNotNull('charged_at');
+
+        if (strtotime($start)) {
+            $qb->where('charged_at', '>=', date('Y-m-d', strtotime($start)));
+        }
+        if (strtotime($end)) {
+            $qb->where('charged_at', '<', date('Y-m-d', strtotime('+1 days', strtotime($end))));
+        }
+        if ($areas) {
+            $qb->whereIn('area_id', $areas);
+        }
+        if ($feeTypes) {
+            $qb->whereIn('title', $feeTypes);
+        }
+        if ($location) {
+            $qb->where('location', 'like', "%{$location}%");
+        }
+        if ($name) {
+            $qb->where('name', 'like', "%{$name}%");
+        }
+        if ($turnIn === 'yes' || $turnIn === 'no') {
+            $qb->where('turn_in', $turnIn === 'yes');
+        }
+        $qb->where('is_refund', !!$isRefund);
+
+
+        return response()->json(['data' => $qb->groupBy('title')->get()]);
     }
 }

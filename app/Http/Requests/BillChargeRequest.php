@@ -32,6 +32,7 @@ class BillChargeRequest extends FormRequest
             'lates.*.title' => 'sometimes|required',
             'lates.*.money' => 'sometimes|required|numeric|min:0',
             'charge_date' => 'required|date',
+            'way' => 'required',
         ];
     }
 }
