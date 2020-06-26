@@ -27,7 +27,7 @@ class BillRequest extends FormRequest
     {
         return [
             'type' => 'required|in:person,company,other',
-            'area_id' => 'required|integer',
+            'area_id' => 'required',
             'location' => 'required',
             'money' => 'required|numeric',
             'title' => ['required', Rule::in(FeeType::pluck('title')->toArray())],
@@ -46,7 +46,6 @@ class BillRequest extends FormRequest
             'type.required' => '类型必须填写',
             'type.in' => '类型填写错误',
             'area_id.required' => '区域必须填写',
-            'area_id.integer' => '区域填写错误',
             'location.required' => '房间/位置必须填写',
             'money.required' => '金额必须填写',
             'money.numeric' => '金额填写错误',

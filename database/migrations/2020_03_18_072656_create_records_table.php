@@ -14,15 +14,15 @@ class CreateRecordsTable extends Migration
     public function up()
     {
         Schema::create('records', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('area_id')->default(0);
+            $table->uuid('id');
+            $table->uuid('area_id')->default(0);
             $table->string('type', 12)->default('')->comment('取值：person|company|functional');
-            $table->unsignedBigInteger('category_id')->default(0);
-            $table->unsignedBigInteger('room_id')->default(0);
-            $table->unsignedBigInteger('person_id')->default(0);
-            $table->unsignedBigInteger('company_id')->default(0);
+            $table->uuid('category_id')->default(0);
+            $table->uuid('room_id')->default(0);
+            $table->uuid('person_id')->default(0);
+            $table->uuid('company_id')->default(0);
             $table->string('functional_title')->default('')->comment('功能性用房的标题');
-            $table->unsignedBigInteger('charge_rule_id')->default(0);
+            $table->uuid('charge_rule_id')->default(0);
             $table->date('charged_to')->nullable()->comment('已缴费至');
             $table->date('record_at')->default('1000-01-01')->comment('记录时间（入住时间）');
             $table->date('rent_start')->default('1000-01-01')->comment('入住期限开始日期');

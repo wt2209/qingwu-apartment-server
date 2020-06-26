@@ -28,8 +28,8 @@ class RoomRequest extends FormRequest
         $id = $this->route('id', null);
 
         return [
-            'category_id' => 'required|integer|min:1',
-            'area_id' => 'required|integer|min:1',
+            'category_id' => 'required',
+            'area_id' => 'required',
             'title' => [
                 'required',
                 $id
@@ -50,10 +50,8 @@ class RoomRequest extends FormRequest
     {
         return [
             'category_id.required' => '必须选择一个类型',
-            'category_id.integer' => '类型错误',
             'category_id.min' => '类型错误',
             'area_id.required' => '必须选择所属区域',
-            'area_id.integer' => '类型错误',
             'area_id.min' => '类型错误',
             'title.required' => '必须填写房间号',
             'title.unique' => '此房间已存在',

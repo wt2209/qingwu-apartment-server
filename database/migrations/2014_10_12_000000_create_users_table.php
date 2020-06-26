@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id');
             $table->string('username')->unique();
             $table->string('name')->default('');
             $table->string('areas')->default('')->comment('可管理的区域，格式: 1,2,3');

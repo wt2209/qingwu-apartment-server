@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use App\Scopes\AreasScope;
+use App\Traits\UuidPrimaryKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class Record extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, UuidPrimaryKey;
+
+    // 必须加上这一句
+    public $incrementing  = false;
 
     const STATUS_LIVING = 'living';
     const STATUS_QUITTED = 'quitted';

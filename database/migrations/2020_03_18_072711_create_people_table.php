@@ -14,7 +14,7 @@ class CreatePeopleTable extends Migration
     public function up()
     {
         Schema::create('people', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id');
             $table->string('name', 4)->default('');
             $table->string('gender', 2)->default('男');
             $table->string('education')->nullable()->comment('学历');

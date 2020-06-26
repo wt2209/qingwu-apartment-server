@@ -14,7 +14,7 @@ class CreateAreasTable extends Migration
     public function up()
     {
         Schema::create('areas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->string('title')->unique();
             $table->string('description')->nullable();
             $table->softDeletes('deleted_at', 0);

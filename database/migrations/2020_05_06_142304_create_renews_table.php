@@ -14,8 +14,8 @@ class CreateRenewsTable extends Migration
     public function up()
     {
         Schema::create('renews', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('record_id');
+            $table->uuid('id');
+            $table->uuid('record_id');
             $table->date('old_rent_end');
             $table->date('new_rent_end');
             $table->date('renewed_at');

@@ -30,8 +30,8 @@ class LivingController extends Controller
 
         // 搜索
         $keyword = $request->query('keyword', '');
-        $areaId = $request->query('area_id', 0);
-        $categoryId = $request->query('category_id', 0);
+        $areaId = $request->query('area_id', '');
+        $categoryId = $request->query('category_id', '');
 
         $service = new LivingService;
 

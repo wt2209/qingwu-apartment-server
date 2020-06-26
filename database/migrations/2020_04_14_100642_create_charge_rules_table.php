@@ -15,7 +15,7 @@ class CreateChargeRulesTable extends Migration
     public function up()
     {
         Schema::create('charge_rules', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->string('title')->unique();
             $table->string('type')->default(ChargeRule::TYPE_PERSON)->comment('收费规则对应的类型');
             $table->string('way')->default(ChargeRule::WAY_BEFORE);

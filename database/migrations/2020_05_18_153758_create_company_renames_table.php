@@ -14,8 +14,8 @@ class CreateCompanyRenamesTable extends Migration
     public function up()
     {
         Schema::create('company_renames', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->uuid('id');
+            $table->uuid('company_id');
             $table->string('old_company_name');
             $table->string('new_company_name');
             $table->date('renamed_at');

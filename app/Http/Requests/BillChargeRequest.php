@@ -26,7 +26,7 @@ class BillChargeRequest extends FormRequest
         return [
             'ids' => 'required|array',
             'lates' => 'sometimes|required|array',
-            'lates.*.area_id' => 'sometimes|required|integer',
+            'lates.*.area_id' => 'sometimes|required',
             'lates.*.type' => 'sometimes|required',
             'lates.*.location' => 'sometimes|required',
             'lates.*.title' => 'sometimes|required',

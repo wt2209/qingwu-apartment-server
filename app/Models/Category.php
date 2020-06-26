@@ -3,54 +3,16 @@
 namespace App\Models;
 
 use App\Scopes\AreasScope;
+use App\Traits\UuidPrimaryKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class Category
- *
- * @package Petstore30
- *
- * @author  Donii Sergii <doniysa@gmail.com>
- *
- * @OA\Schema(
- *     description="Category model",
- *     title="Category",
- *     required={"name", "photoUrls"},
- *     @OA\Xml(
- *         name="Category"
- *     )
- * )
- * 
- * @OA\Property(
- *     property="title",
- *     format="string",
- *     description="类型的名称",
- *     title="名称",
- * )
- * 
- * @OA\Property(
- *     property="type",
- *     format="string",
- *     description="居住类型",
- *     title="居住类型",
- * )
- *
- *
- * @OA\RequestBody(
- *     request="Category",
- *     description="Pet object that needs to be added to the store",
- *     required=true,
- *     @OA\JsonContent(ref="#/components/schemas/Category"),
- *     @OA\MediaType(
- *         mediaType="application/xml",
- *         @OA\Schema(ref="#/components/schemas/Category")
- *     )
- * )
- */
 class Category extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, UuidPrimaryKey;
+
+    // 必须加上这一句
+    public $incrementing  = false;
 
     const STATUS_ALL = 'all';
     const STATUS_DELETED = 'deleted';

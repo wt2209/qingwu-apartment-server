@@ -14,7 +14,7 @@ class CreateFeeTypesTable extends Migration
     public function up()
     {
         Schema::create('fee_types', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->string('title')->unique();
             $table->boolean('turn_in')->default(true)->comment('是否上交财务');
             $table->decimal('rate', 6, 3)->default(0)->comment('每日滞纳金率');

@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use App\Scopes\AreasScope;
+use App\Traits\UuidPrimaryKey;
 use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    use UuidPrimaryKey;
+
+    // 必须加上这一句
+    public $incrementing  = false;
+
     protected $fillable = [
         'name', 'area_id', 'gender', 'education', 'serial', 'identify',
         'phone', 'department', 'hired_at', 'contract_start',

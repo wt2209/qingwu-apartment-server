@@ -29,7 +29,7 @@ class LivingMoveRequest extends FormRequest
         $areaId = $data['area_id'] ?? '';
         $id = $this->route('id', null);
         return [
-            'area_id' => 'required|integer|min:1',
+            'area_id' => 'required',
             'title' => [
                 'required',
                 function ($attribute, $value, $fail) use ($areaId, $id) {
@@ -52,8 +52,6 @@ class LivingMoveRequest extends FormRequest
         return [
             'title.required' => '必须填写房间号',
             'area_id.required' => '必须选择区域',
-            'area_id.integer' => '必须选择区域',
-            'area_id.min' => '必须选择区域',
             'deleted_at.required' => '必须填写调房时间',
             'deleted_at.date' => '调房时间格式错误',
         ];

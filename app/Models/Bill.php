@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\UuidPrimaryKey;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
 {
-    // 使用uuid
-    public $incrementing = false;
+    use UuidPrimaryKey;
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = Uuid::uuid4()->toString();
-        });
-    }
+    // 必须加上这一句
+    public $incrementing  = false;
 
     const TYPE_PERSON = ChargeRule::TYPE_PERSON;
     const TYPE_COMPANY = ChargeRule::TYPE_COMPANY;
