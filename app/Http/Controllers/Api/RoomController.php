@@ -11,31 +11,6 @@ use DB;
 
 class RoomController extends Controller
 {
-    public function tree()
-    {
-        $areasWithRooms = Area::select(['id', 'title'])
-            ->with(['rooms' => function ($query) {
-                $query->distinct('unit')->select(['unit', 'building', 'area_id']);
-            }])
-            ->get()
-            ->toArray();
-
-        $tree = [];
-        foreach ($areasWithRooms as $area) {
-            $buildings = [];
-            foreach ($area['rooms'] as $room) {
-                if (isset($buildings[$room['building']])) {
-                    array_push($buildings[$room['building']], $room['unit']);
-                } else {
-                    $buildings[$room['building']] = [$room['unit']];
-                }
-            }
-            $tree[$area['title']] = $buildings;
-        }
-
-        return response()->json(['data' => $tree], 200);
-    }
-
     public function index(Request $request)
     {
         $perPage =  $request->query('pageSize', config('app.pageSize', 20));
