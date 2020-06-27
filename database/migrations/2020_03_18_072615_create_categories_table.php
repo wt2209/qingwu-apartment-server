@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('title', 30)->default('');
+            $table->string('title', 30)->unique();
             $table->string('type', 12)->default(Category::TYPE_PERSON)->comment('取值：person|company|functional');
             $table->string('utility_type')->nullable()->comment('水电费收费规则');
             $table->string('remark')->nullable();

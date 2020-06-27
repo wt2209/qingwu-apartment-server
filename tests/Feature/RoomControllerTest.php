@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Area;
+use App\Models\Category;
 use App\Models\Room;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RoomControllerTest extends TestCase
@@ -31,7 +31,7 @@ class RoomControllerTest extends TestCase
 
     public function test_get_rooms_paginator_with_trashed()
     {
-        Room::find(1)->delete();
+        Room::first()->delete();
         $response = $this->withJwt()->getJson('api/rooms');
         $data = $response->json('data');
         $this->assertNotNull($data[0]['deleted_at']);
@@ -74,23 +74,24 @@ class RoomControllerTest extends TestCase
 
     public function test_show_a_room()
     {
-        $response = $this->withJwt()->getJson('api/rooms/1');
+        $room = Room::first();
+        $response = $this->withJwt()->getJson("api/rooms/{$room->id}");
         $response->assertOk()
             ->assertJsonStructure(['data']);
         $data = $response->json('data');
-        $room = Room::findOrFail(1);
         $this->assertEquals($data['title'], $room->title);
     }
 
     public function test_create_a_room()
     {
+        $area = Area::first();
+        $category = Category::first();
         $data = [
             'title' => '',
-            'area_id' => 1,
+            'area_id' => $area->id,
             'building' => '1#',
             'unit' => '1单元',
-            'area_id' => 1,
-            'category_id' => 1,
+            'category_id' => $category->id,
             'number' => 0,
         ];
         $response1 = $this->withJwt()->postJson('api/rooms', $data);
@@ -100,9 +101,9 @@ class RoomControllerTest extends TestCase
             'title' => '1-1-1011',
             'building' => '1#',
             'unit' => '1单元',
-            'area_id' => 1,
-            'category_id' => 1,
-            'number' => 0,
+            'area_id' => $area->id,
+            'category_id' => $category->id,
+            'number' => 1,
         ];
         $response2 = $this->withJwt()->postJson('api/rooms', $data2);
         $response2->assertStatus(201)->assertJsonStructure(['message']);
@@ -110,38 +111,40 @@ class RoomControllerTest extends TestCase
 
     public function test_update_a_room()
     {
+        $area = Area::first();
+        $category = Category::first();
+        $room = Room::first();
         $data1 = [
             'title' => '',
             'building' => '1#',
             'unit' => '1单元',
-            'area_id' => 1,
-            'category_id' => 1,
+            'area_id' => $area->id,
+            'category_id' => $category->id,
             'number' => 0,
         ];
-        $response1 = $this->withJwt()->putJson('api/rooms/1', $data1);
+        $response1 = $this->withJwt()->putJson("api/rooms/{$room->id}", $data1);
         $response1->assertStatus(422);
 
         $data2 = [
             'title' => '1-1-103',
             'building' => '1#',
             'unit' => '1单元',
-            'area_id' => 1,
-            'category_id' => 1,
+            'area_id' => $area->id,
+            'category_id' => $category->id,
             'number' => 0,
         ];
-        $response2 = $this->withJwt()->putJson('api/rooms/1', $data2);
+        $response2 = $this->withJwt()->putJson("api/rooms/{$room->id}", $data2);
         $response2->assertOk()->assertJsonStructure(['message']);
     }
 
     public function test_delete_a_room()
     {
-        $response = $this->withJwt()->deleteJson('api/rooms/1');
+        $area = Area::first();
+        $room = Room::first();
+        $response = $this->withJwt()->deleteJson("api/rooms/{$room->id}");
         $response->assertOk();
 
-        $room = Room::find(1);
-        $this->assertNull($room);
-
-        $trashedRoom = Room::withTrashed()->find(1);
+        $trashedRoom = Room::withTrashed()->find($room->id);
         $this->assertNotNull($trashedRoom);
     }
 }

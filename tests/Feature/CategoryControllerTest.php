@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
@@ -54,7 +52,7 @@ class CategoryControllerTest extends TestCase
 
     public function test_get_one_category()
     {
-        $category = Category::findOrFail(1);
+        $category = Category::first();
         $result = [
             'data' => [
                 'id' => $category->id,
@@ -119,7 +117,8 @@ class CategoryControllerTest extends TestCase
     public function test_soft_delete_one_category()
     {
         $count = Category::count();
-        $this->withJwt()->deleteJson('api/categories/1')
+        $category = Category::first();
+        $this->withJwt()->deleteJson("api/categories/{$category->id}")
             ->assertStatus(200);
         $this->assertEquals($count - 1, Category::count());
         $this->assertEquals($count, Category::withTrashed()->count());

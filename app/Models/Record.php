@@ -64,21 +64,6 @@ class Record extends Model
         return $this->belongsTo(Room::class, 'to_room', 'id');
     }
 
-    public function getRentStartAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
-    }
-
-    public function getRentEndAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
-    }
-
-    public function getDeletedAtAttribute($value)
-    {
-        return substr($value, 0, 10);
-    }
-
     public function getProofFilesAttribute($value)
     {
         if (is_string($value)) {

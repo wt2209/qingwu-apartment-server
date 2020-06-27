@@ -13,20 +13,10 @@ class Company extends Model
     // 必须加上这一句
     public $incrementing  = false;
 
-    protected $fillable = ['company_name', 'manager', 'manager_phone', 'linkman', 'linkman_phone', 'entered_at', 'remark'];
+    protected $fillable = ['company_name', 'manager', 'manager_phone', 'linkman', 'linkman_phone', 'remark'];
 
     public function records()
     {
         return $this->hasMany(Record::class);
-    }
-
-    public function setEnteredAtAttribute($value)
-    {
-        $this->attributes['entered_at'] = empty($value) ? '1000-01-01' : $value;
-    }
-
-    public function getEnteredAtAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
     }
 }

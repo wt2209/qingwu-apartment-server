@@ -15,7 +15,7 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->uuid('id'); // 使用uuid进行唯一区分
-            $table->unsignedBigInteger('area_id');
+            $table->uuid('area_id');
             $table->string('type')->comment('person|company|other');
             $table->string('location')->comment('房间号/位置');
             $table->string('name')->nullable()->comment('姓名或公司名');

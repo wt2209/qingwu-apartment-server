@@ -2,26 +2,22 @@
 
 namespace Tests\Feature;
 
-use App\Models\Bill;
+use App\Models\Area;
 use App\Models\Category;
 use App\Models\ChargeRule;
-use App\Models\Record;
 use App\Models\Room;
-use App\Services\BillService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class BillControllerTest extends TestCase
 {
     public function test_generate_bills()
     {
+        $area = Area::first();
         $category = Category::where('title', '单身职工')->first();
-        $room = Room::where('area_id', 1)->where('category_id', $category->id)->first();
+        $room = Room::where('area_id', $area->id)->where('category_id', $category->id)->first();
         $chargeRule = ChargeRule::where('type', 'person')->first();
         $record = [
-            'area_id' => 1,
+            'area_id' => $area->id,
             'type' => 'person',
             'category_id' => $category->id,
             'room_id' => $room->id,

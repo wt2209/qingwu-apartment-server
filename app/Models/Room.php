@@ -12,7 +12,7 @@ class Room extends Model
     use SoftDeletes, UuidPrimaryKey;
 
     // 必须加上这一句
-    public $incrementing  = false;
+    public $incrementing = false;
 
     const STATUS_ALL = 'all';
     const STATUS_DELETED = 'deleted';

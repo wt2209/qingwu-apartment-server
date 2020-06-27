@@ -31,12 +31,13 @@ Route::namespace('Api')
 
         Route::get('all-categories', 'CategoryController@getAllCategories')->name('get-all-categories');
         Route::get('all-areas', 'AreaController@getAllAreas')->name('get-all-areas');
-        Route::get('room-tree', 'RoomController@tree')->name('room-tree');
         Route::get('all-fee-types', 'FeeTypeController@getAllFeeTypes')->name('all-fee-types');
         Route::get('all-charge-rules', 'ChargeRuleController@getAllChargeRules')->name('all-charge-rules');
         Route::get('all-companies', 'CompanyController@getAllCompanies')->name('all-companies');
         Route::get('one-company', 'CompanyController@getOneCompany')->name('one-company');
         Route::get('one-person', 'PersonController@getOnePerson')->name('one-person');
+
+        Route::get('room-tree', 'LivingController@tree')->name('room-tree');
 
         Route::get('livings/moves/{personId}', 'LivingController@getMoveList')->name('livings.moveList');
         Route::get('livings/renames/{companyId}', 'LivingController@getRenameList')->name('livings.renameList');

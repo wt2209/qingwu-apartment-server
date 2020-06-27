@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Area;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AreaControllerTest extends TestCase
@@ -26,8 +24,7 @@ class AreaControllerTest extends TestCase
 
     public function test_get_one_area()
     {
-        $id = 1;
-        $area = Area::find($id);
+        $area = Area::first();
         $result = [
             'data' => [
                 'id' => $area->id,
@@ -35,7 +32,7 @@ class AreaControllerTest extends TestCase
                 'description' => $area->description,
             ]
         ];
-        $response = $this->withJwt()->getJson('api/areas/' . $id);
+        $response = $this->withJwt()->getJson('api/areas/' . $area->id);
         $response->assertStatus(200)
             ->assertJsonStructure(['data'])
             ->assertJson($result);
@@ -80,7 +77,8 @@ class AreaControllerTest extends TestCase
     public function test_soft_delete_one_area()
     {
         $count = Area::count();
-        $this->withJwt()->deleteJson('api/areas/1')
+        $area = Area::first();
+        $this->withJwt()->deleteJson("api/areas/{$area->id}")
             ->assertStatus(200);
         $this->assertEquals($count - 1, Area::count());
         $this->assertEquals($count, Area::withTrashed()->count());

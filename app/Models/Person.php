@@ -24,63 +24,13 @@ class Person extends Model
         return $this->hasMany(Record::class);
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return substr($value, 0, 10);
-    }
-
-    public function setHiredAtAttribute($value)
-    {
-        $this->attributes['hired_at'] = empty($value) ? '1000-01-01' : $value;
-    }
-
-    public function getHiredAtAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
-    }
-
-    public function setEnteredAtAttribute($value)
-    {
-        $this->attributes['entered_at'] = empty($value) ? '1000-01-01' : $value;
-    }
-
-    public function getEnteredAtAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
-    }
-
-    public function setContractStarttribute($value)
-    {
-        $this->attributes['contract_start'] = empty($value) ? '1000-01-01' : $value;
-    }
-
-    public function getContractStartAttribute($value)
-    {
-        return $value === '1000-01-01' ? '' : $value;
-    }
-
     public function setContractEndAttribute($value)
     {
-        if (empty($value)) {
-            $result = '1000-01-01';
-        } else if ($value === '无固定期') {
-            $result = '3000-01-01';
-        } else {
-            $result = $value;
-        }
-
-        $this->attributes['contract_end'] = $result;
+        $this->attributes['contract_end'] = $value === '无固定期' ? '3000-01-01' : $value;
     }
 
     public function getContractEndAttribute($value)
     {
-        switch ($value) {
-            case '3000-01-01':
-                return '无固定期';
-            case '1000-01-01':
-                return '';
-            default:
-                return $value;
-        }
+        return $value === '3000-01-01' ? '无固定期' : $value;
     }
 }
